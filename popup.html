@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="bar">
+    <div class="host" id="host">loading</div>
+    <button class="ghost" id="toggleAdd" title="Add a flag" aria-label="Add a flag">+</button>
+  </header>
+
+  <div class="notice" id="notice" hidden></div>
+
+  <form class="form" id="form" hidden autocomplete="off">
+    <label class="field">
+      <span class="label">Cookie name</span>
+      <input class="input mono" id="fName" placeholder="checkout-ab" spellcheck="false">
+    </label>
+    <label class="field">
+      <span class="label">Values</span>
+      <input class="input mono" id="fValues" placeholder="a, b" spellcheck="false">
+    </label>
+    <label class="field">
+      <span class="label">Domain <span class="hint">optional, leave empty for this host</span></span>
+      <input class="input mono" id="fDomain" placeholder=".stage.example.com" spellcheck="false">
+    </label>
+    <div class="row">
+      <button class="primary" id="fSave" type="submit">Save flag</button>
+      <button class="ghost text" id="fCancel" type="button">Cancel</button>
+    </div>
+    <p class="error" id="fError" hidden></p>
+  </form>
+
+  <main id="list" class="list"></main>
+
+  <footer class="bar foot">
+    <label class="check">
+      <input type="checkbox" id="autoReload">
+      <span>Reload on change</span>
+    </label>
+    <div class="row tight">
+      <button class="ghost text" id="export">Export</button>
+      <button class="ghost text" id="importBtn">Import</button>
+      <input type="file" id="importFile" accept="application/json" hidden>
+    </div>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

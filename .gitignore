@@ -1,0 +1,19 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Extension packaging — never commit the signing key
+*.zip
+*.crx
+*.pem
+
+# Just in case tooling sneaks in (project is intentionally dependency-free)
+node_modules/
+
+# Local Claude Code settings
+.claude/settings.local.json
