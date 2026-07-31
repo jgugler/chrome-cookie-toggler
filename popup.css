@@ -96,6 +96,23 @@ body {
   flex: none;
 }
 
+.flag-controls {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.flag-controls .seg { flex: 1; min-width: 0; }
+
+.kebab {
+  width: 24px;
+  flex: none;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.kebab:hover, .kebab[aria-expanded="true"] { color: var(--ink); }
+
 .seg {
   display: flex;
   gap: 2px;

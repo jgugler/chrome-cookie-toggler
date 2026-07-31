@@ -144,6 +144,8 @@ function flagRow(flag, current) {
 
   const actions = document.createElement("div");
   actions.className = "actions";
+  actions.id = `actions-${flag.id}`;
+  actions.hidden = true;
   actions.append(
     textButton("Edit", () => openForm(flag.id)),
     textButton("Remove", async () => {
@@ -153,7 +155,24 @@ function flagRow(flag, current) {
     })
   );
 
-  wrap.append(head, seg, actions);
+  const menu = document.createElement("button");
+  menu.type = "button";
+  menu.className = "ghost kebab";
+  menu.textContent = "⋮";
+  menu.title = "More actions";
+  menu.setAttribute("aria-label", `More actions for ${flag.name}`);
+  menu.setAttribute("aria-expanded", "false");
+  menu.setAttribute("aria-controls", actions.id);
+  menu.addEventListener("click", () => {
+    actions.hidden = !actions.hidden;
+    menu.setAttribute("aria-expanded", String(!actions.hidden));
+  });
+
+  const controls = document.createElement("div");
+  controls.className = "flag-controls";
+  controls.append(seg, menu);
+
+  wrap.append(head, controls, actions);
   return wrap;
 }
 
