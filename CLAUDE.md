@@ -61,8 +61,10 @@ path, existing installs already hold data.
   casing, preserves a typed leading dot, and leaves input alone that does not parse to a
   plausible hostname.
 - The list has two filter tabs. This site (default) shows flags with no domain plus
-  flags whose domain matches the tab's host or a parent of it. All shows every flag.
-  The choice is per popup open, it is not persisted.
+  flags whose domain matches the tab's host or a parent of it. All shows every flag,
+  grouped by domain: the domain-less group is labeled with the current host and sorts
+  first, the rest alphabetically. Grouped cards skip their own domain line, the group
+  heading carries it. The choice is per popup open, it is not persisted.
 - The toolbar badge shows how many registered flag cookies exist on the active tab,
   computed per tab in `background.js` on tab switch, navigation, cookie and storage
   changes. No badge means no override is live.

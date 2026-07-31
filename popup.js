@@ -165,13 +165,39 @@ async function render() {
     return;
   }
 
+  if (!showAll) {
+    for (const flag of visible) {
+      const current = await readValue(flag);
+      el.list.append(flagRow(flag, current, true));
+    }
+    return;
+  }
+
+  const groups = new Map();
   for (const flag of visible) {
-    const current = await readValue(flag);
-    el.list.append(flagRow(flag, current));
+    const key = flag.domain || "";
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(flag);
+  }
+  const keys = [...groups.keys()].sort((a, b) => {
+    if (a === "") return -1;
+    if (b === "") return 1;
+    return a.localeCompare(b);
+  });
+
+  for (const key of keys) {
+    const heading = document.createElement("h2");
+    heading.className = "group";
+    heading.textContent = key || tabUrl.host;
+    el.list.append(heading);
+    for (const flag of groups.get(key)) {
+      const current = await readValue(flag);
+      el.list.append(flagRow(flag, current, false));
+    }
   }
 }
 
-function flagRow(flag, current) {
+function flagRow(flag, current, showScope) {
   const wrap = document.createElement("section");
   wrap.className = "flag";
 
@@ -183,7 +209,7 @@ function flagRow(flag, current) {
   name.textContent = flag.name;
   head.append(name);
 
-  if (flag.domain) {
+  if (flag.domain && showScope) {
     const scope = document.createElement("span");
     scope.className = "flag-scope";
     scope.textContent = flag.domain;

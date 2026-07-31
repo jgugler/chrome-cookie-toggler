@@ -21,7 +21,7 @@ Off is neutral, an active variant is filled with the coral accent, so you can se
 ## Behaviour and defaults
 
 - **Scope.** With Domain empty, the cookie is written for the exact host of the current tab, on path `/`. Fill in Domain, for example `.stage.example.com`, if the app reads the cookie across subdomains.
-- **Tabs.** This site lists flags whose domain matches the current tab (domain-less flags always match). All lists every flag regardless of domain.
+- **Tabs.** This site lists flags whose domain matches the current tab (domain-less flags always match). All lists every flag regardless of domain, grouped by domain, with domain-less flags grouped under the current host first.
 - **Domain accepts a pasted URL.** `https://shop.stage.example.com/checkout?x=1` becomes `shop.stage.example.com` when you leave the field, protocol, port, path and casing are stripped. A leading dot you typed is kept.
 - **Lifetime.** 90 days, so it survives a browser restart. Change `COOKIE_DAYS` in `popup.js` if you want session only behaviour.
 - **Secure.** Set automatically when the page is https.
