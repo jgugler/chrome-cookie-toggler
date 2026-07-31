@@ -65,6 +65,9 @@ function bind() {
     state.autoReload = el.autoReload.checked;
     persist();
   });
+  el.fDomain.addEventListener("change", () => {
+    el.fDomain.value = normalizeDomain(el.fDomain.value);
+  });
   el.exportBtn.addEventListener("click", exportFlags);
   el.importBtn.addEventListener("click", () => el.importFile.click());
   el.importFile.addEventListener("change", importFlags);
@@ -95,6 +98,21 @@ function setShowAll(value) {
   el.tabSite.setAttribute("aria-pressed", String(!showAll));
   el.tabAll.setAttribute("aria-pressed", String(showAll));
   render();
+}
+
+function normalizeDomain(raw) {
+  let value = raw.trim().toLowerCase();
+  if (!value) return "";
+  const leadingDot = value.startsWith(".");
+  if (leadingDot) value = value.replace(/^\.+/, "");
+  try {
+    const url = new URL(value.includes("://") ? value : `https://${value}`);
+    value = url.hostname.replace(/\.$/, "");
+  } catch {
+    return raw.trim();
+  }
+  if (!value || !/^[a-z0-9.-]+$/.test(value)) return raw.trim();
+  return leadingDot ? `.${value}` : value;
 }
 
 function matchesSite(flag) {
@@ -263,7 +281,7 @@ async function saveFlag(event) {
     .split(",")
     .map((v) => v.trim())
     .filter(Boolean);
-  const domain = el.fDomain.value.trim();
+  const domain = normalizeDomain(el.fDomain.value);
 
   if (!name) return fail("Add the cookie name.");
   if (/[\s;=,]/.test(name)) return fail("A cookie name cannot contain spaces, semicolons, commas or equals signs.");

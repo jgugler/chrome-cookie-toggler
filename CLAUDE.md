@@ -56,6 +56,10 @@ path, existing installs already hold data.
 - `secure` is set when the page is https.
 - Off removes the cookie via `chrome.cookies.remove`, it does not write an empty value.
 - After any change the tab reloads if `autoReload` is on.
+- The Domain field normalizes pasted URLs via `normalizeDomain` in `popup.js`, on field
+  change and again on save: it keeps the hostname, drops protocol, port, path, query and
+  casing, preserves a typed leading dot, and leaves input alone that does not parse to a
+  plausible hostname.
 - The list has two filter tabs. This site (default) shows flags with no domain plus
   flags whose domain matches the tab's host or a parent of it. All shows every flag.
   The choice is per popup open, it is not persisted.
