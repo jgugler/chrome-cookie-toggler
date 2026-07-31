@@ -10,6 +10,7 @@
   --accent: #ee5a5f;
   --accent-ink: #ffffff;
   --focus: #3b74ff;
+  --hover: rgba(28, 33, 54, 0.07);
   --shadow: rgba(23, 28, 51, 0.12);
   --radius: 10px;
   --radius-card: 14px;
@@ -29,6 +30,7 @@
     --hairline: #2b3363;
     --accent: #f2605e;
     --focus: #7aa3ff;
+    --hover: rgba(242, 244, 250, 0.08);
     --shadow: rgba(4, 7, 20, 0.45);
   }
 }
@@ -36,6 +38,18 @@
 * { box-sizing: border-box; }
 
 [hidden] { display: none !important; }
+
+button {
+  transition:
+    background 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease,
+    transform 0.06s ease;
+}
+
+button:active { transform: scale(0.97); }
 
 body {
   width: 336px;
@@ -142,7 +156,10 @@ body {
   overflow-wrap: anywhere;
 }
 
-.seg button:hover { color: var(--ink); }
+.seg button:hover {
+  background: var(--hover);
+  color: var(--ink);
+}
 
 .seg button[aria-pressed="true"] {
   background: var(--pill);
@@ -155,6 +172,10 @@ body {
   color: var(--accent-ink);
   box-shadow: none;
 }
+
+.seg button[aria-pressed="true"]:hover { filter: brightness(0.97); }
+
+.seg button.live[aria-pressed="true"]:hover { filter: brightness(1.08); }
 
 .actions {
   display: flex;
@@ -206,12 +227,24 @@ body {
   cursor: pointer;
 }
 
+.primary:hover {
+  filter: brightness(1.07);
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+.primary:active { filter: brightness(0.95); }
+
 .ghost {
   border: 0;
   background: transparent;
   color: var(--ink-soft);
   cursor: pointer;
   border-radius: var(--radius);
+}
+
+.ghost:hover {
+  background: var(--hover);
+  color: var(--ink);
 }
 
 #toggleAdd {
@@ -224,7 +257,10 @@ body {
   border-radius: 9px;
 }
 
-#toggleAdd:hover, .ghost.text:hover { color: var(--ink); }
+#toggleAdd:hover {
+  color: var(--ink);
+  box-shadow: 0 2px 5px var(--shadow);
+}
 
 .ghost.text {
   padding: 5px 12px;
@@ -233,6 +269,8 @@ body {
   border: 1px solid var(--hairline);
   border-radius: 999px;
 }
+
+.ghost.text:hover { border-color: var(--ink-soft); }
 
 .check {
   display: flex;
