@@ -5,6 +5,9 @@
   "description": "Set test cookies on the current site and switch their values from a segmented control.",
   "permissions": ["cookies", "storage", "tabs"],
   "host_permissions": ["http://*/*", "https://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_title": "Flag Switch",

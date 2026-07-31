@@ -25,7 +25,8 @@ the Chrome Web Store, distributed as an unpacked folder.
 
 | File | Role |
 | --- | --- |
-| `manifest.json` | MV3 manifest, permissions, action popup, icons |
+| `manifest.json` | MV3 manifest, permissions, action popup, background worker, icons |
+| `background.js` | Service worker: keeps the toolbar badge in sync with live overrides |
 | `popup.html` | Popup markup: header, add and edit form, flag list, footer |
 | `popup.css` | All styles, CSS custom properties, light and dark via `prefers-color-scheme` |
 | `popup.js` | All logic: storage, cookie read and write, rendering, export and import |
@@ -55,6 +56,9 @@ path, existing installs already hold data.
 - `secure` is set when the page is https.
 - Off removes the cookie via `chrome.cookies.remove`, it does not write an empty value.
 - After any change the tab reloads if `autoReload` is on.
+- The toolbar badge shows how many registered flag cookies exist on the active tab,
+  computed per tab in `background.js` on tab switch, navigation, cookie and storage
+  changes. No badge means no override is live.
 
 ## Design language
 
@@ -88,5 +92,4 @@ Sanity check before handing anything over: `node --check popup.js`.
 - [ ] Per flag session only lifetime instead of the global 90 days
 - [ ] Reorder flags, the list follows insertion order
 - [ ] Group flags by team or by project so the popup stays readable past ten or so entries
-- [ ] Show a badge on the toolbar icon when any override is live on the current tab
 - [ ] Keyboard shortcut to cycle a flag without opening the popup

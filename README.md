@@ -23,6 +23,7 @@ Off is neutral, an active variant is filled with the coral accent, so you can se
 - **Scope.** With Domain empty, the cookie is written for the exact host of the current tab, on path `/`. Fill in Domain, for example `.stage.example.com`, if the app reads the cookie across subdomains.
 - **Lifetime.** 90 days, so it survives a browser restart. Change `COOKIE_DAYS` in `popup.js` if you want session only behaviour.
 - **Secure.** Set automatically when the page is https.
+- **Badge.** The toolbar icon shows a count of the overrides live on the current tab, so you can tell without opening the popup.
 - **Reload on change.** On by default, toggle in the footer.
 - **Storage.** Flags live in `chrome.storage.sync`, so they follow your Chrome profile.
 
