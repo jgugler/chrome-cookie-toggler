@@ -27,6 +27,8 @@
 
 * { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 body {
   width: 336px;
   margin: 0;
