@@ -17,3 +17,7 @@ node_modules/
 
 # Local Claude Code settings
 .claude/settings.local.json
+
+# Local dev preview harness
+preview/
+.claude/launch.json

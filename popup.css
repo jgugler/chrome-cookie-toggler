@@ -1,27 +1,35 @@
 :root {
-  --ink: #101114;
-  --ink-soft: #6d7278;
-  --surface: #ffffff;
-  --track: #f0f1f3;
+  --ink: #1c2136;
+  --ink-soft: #6b7288;
+  --surface: #eef1f8;
+  --card: #ffffff;
+  --track: #e8ebf4;
   --pill: #ffffff;
-  --hairline: #e3e5e9;
-  --accent: #cb003d;
+  --pill-ink: #1c2136;
+  --hairline: #dfe3ef;
+  --accent: #ee5a5f;
   --accent-ink: #ffffff;
-  --focus: #1a6dff;
-  --radius: 7px;
+  --focus: #3b74ff;
+  --shadow: rgba(23, 28, 51, 0.12);
+  --radius: 10px;
+  --radius-card: 14px;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --ink: #f2f3f5;
-    --ink-soft: #8f959c;
-    --surface: #17191d;
-    --track: #23262b;
-    --pill: #34383f;
-    --hairline: #2c3037;
-    --accent: #e11149;
+    --ink: #f2f4fa;
+    --ink-soft: #8d96b2;
+    --surface: #0f1430;
+    --card: #1b2248;
+    --track: #10163a;
+    --pill: #eef1f8;
+    --pill-ink: #141a36;
+    --hairline: #2b3363;
+    --accent: #f2605e;
+    --focus: #7aa3ff;
+    --shadow: rgba(4, 7, 20, 0.45);
   }
 }
 
@@ -43,13 +51,11 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--hairline);
+  padding: 14px 16px 10px;
 }
 
 .foot {
-  border-bottom: 0;
-  border-top: 1px solid var(--hairline);
+  padding: 6px 16px 14px;
 }
 
 .host {
@@ -65,21 +71,22 @@ body {
 .list {
   max-height: 400px;
   overflow-y: auto;
+  padding: 2px 0 4px;
 }
 
 .flag {
+  margin: 0 12px 10px;
   padding: 12px;
-  border-bottom: 1px solid var(--hairline);
+  background: var(--card);
+  border-radius: var(--radius-card);
 }
-
-.flag:last-child { border-bottom: 0; }
 
 .flag-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .flag-name {
@@ -105,7 +112,7 @@ body {
 .flag-controls .seg { flex: 1; min-width: 0; }
 
 .kebab {
-  width: 24px;
+  width: 26px;
   flex: none;
   font-size: 14px;
   line-height: 1;
@@ -116,7 +123,7 @@ body {
 .seg {
   display: flex;
   gap: 2px;
-  padding: 2px;
+  padding: 3px;
   background: var(--track);
   border-radius: var(--radius);
 }
@@ -126,7 +133,7 @@ body {
   min-width: 0;
   padding: 6px 4px;
   border: 0;
-  border-radius: calc(var(--radius) - 2px);
+  border-radius: calc(var(--radius) - 3px);
   background: transparent;
   color: var(--ink-soft);
   font-family: var(--mono);
@@ -141,8 +148,8 @@ body {
 
 .seg button[aria-pressed="true"] {
   background: var(--pill);
-  color: var(--ink);
-  box-shadow: 0 1px 2px rgba(16, 17, 20, 0.12);
+  color: var(--pill-ink);
+  box-shadow: 0 1px 3px var(--shadow);
 }
 
 .seg button.live[aria-pressed="true"] {
@@ -153,13 +160,15 @@ body {
 
 .actions {
   display: flex;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .form {
-  padding: 12px;
-  border-bottom: 1px solid var(--hairline);
+  margin: 2px 12px 10px;
+  padding: 14px;
+  background: var(--card);
+  border-radius: var(--radius-card);
   display: grid;
   gap: 10px;
 }
@@ -175,10 +184,10 @@ body {
 
 .input {
   width: 100%;
-  padding: 7px 8px;
+  padding: 8px 10px;
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: var(--track);
   color: var(--ink);
   font-size: 12px;
 }
@@ -186,12 +195,12 @@ body {
 .input.mono { font-family: var(--mono); }
 
 .row { display: flex; align-items: center; gap: 8px; }
-.row.tight { gap: 4px; }
+.row.tight { gap: 6px; }
 
 .primary {
-  padding: 7px 12px;
+  padding: 8px 16px;
   border: 0;
-  border-radius: var(--radius);
+  border-radius: 999px;
   background: var(--accent);
   color: var(--accent-ink);
   font-size: 12px;
@@ -208,31 +217,66 @@ body {
 }
 
 #toggleAdd {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   font-size: 16px;
   line-height: 1;
   flex: none;
+  background: var(--card);
+  border-radius: 9px;
 }
 
 #toggleAdd:hover, .ghost.text:hover { color: var(--ink); }
 
 .ghost.text {
-  padding: 4px 6px;
+  padding: 5px 12px;
   font-size: 11px;
   font-family: var(--sans);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
 }
 
 .check {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 11px;
   color: var(--ink-soft);
   cursor: pointer;
 }
 
-.check input { margin: 0; accent-color: var(--accent); }
+.check input {
+  appearance: none;
+  width: 34px;
+  height: 20px;
+  margin: 0;
+  flex: none;
+  border-radius: 999px;
+  background: var(--track);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.check input::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--pill);
+  box-shadow: 0 1px 2px var(--shadow);
+  transition: transform 0.15s ease;
+}
+
+.check input:checked { background: var(--accent); }
+
+.check input:checked::after {
+  background: var(--accent-ink);
+  transform: translateX(14px);
+}
 
 .empty, .notice {
   padding: 20px 12px;
@@ -244,8 +288,10 @@ body {
 
 .notice {
   text-align: left;
+  margin: 2px 12px 10px;
   padding: 12px;
-  border-bottom: 1px solid var(--hairline);
+  background: var(--card);
+  border-radius: var(--radius-card);
 }
 
 .error {

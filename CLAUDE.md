@@ -62,9 +62,9 @@ Minimal and disciplined. Everything comes from the CSS custom
 properties at the top of `popup.css`, no hardcoded colors in rules.
 
 - Cookie names, values and hosts are set in the mono stack, they are identifiers.
-- Off reads neutral. An active variant is filled with the accent red `#cb003d`, the red
-  means an override is live on the page in front of you. Keep that meaning intact, do not
-  use the accent red for anything decorative.
+- Off reads neutral. An active variant is filled with the coral accent (`--accent`,
+  `#ee5a5f` light, `#f2605e` dark), the coral means an override is live on the page in
+  front of you. Keep that meaning intact, do not use the accent for anything decorative.
 - Focus is always visible via `:focus-visible`.
 - Segmented control uses `role="group"` with `aria-pressed` per button.
 
