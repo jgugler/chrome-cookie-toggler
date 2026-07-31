@@ -61,6 +61,15 @@ function bind() {
   el.exportBtn.addEventListener("click", exportFlags);
   el.importBtn.addEventListener("click", () => el.importFile.click());
   el.importFile.addEventListener("change", importFlags);
+  document.addEventListener("click", (event) => {
+    if (event.target.closest(".kebab, .actions")) return;
+    closeMenus();
+  });
+}
+
+function closeMenus() {
+  for (const actions of el.list.querySelectorAll(".actions")) actions.hidden = true;
+  for (const kebab of el.list.querySelectorAll(".kebab")) kebab.setAttribute("aria-expanded", "false");
 }
 
 function persist() {
@@ -164,8 +173,10 @@ function flagRow(flag, current) {
   menu.setAttribute("aria-expanded", "false");
   menu.setAttribute("aria-controls", actions.id);
   menu.addEventListener("click", () => {
-    actions.hidden = !actions.hidden;
-    menu.setAttribute("aria-expanded", String(!actions.hidden));
+    const open = actions.hidden;
+    closeMenus();
+    actions.hidden = !open;
+    menu.setAttribute("aria-expanded", String(open));
   });
 
   const controls = document.createElement("div");
