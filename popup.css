@@ -82,6 +82,36 @@ body {
   white-space: nowrap;
 }
 
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 0 12px 10px;
+}
+
+.tab {
+  padding: 5px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background: var(--hover);
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+
+.tab[aria-pressed="true"],
+.tab[aria-pressed="true"]:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
+}
+
 .list {
   max-height: 400px;
   overflow-y: auto;

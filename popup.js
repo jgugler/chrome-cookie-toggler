@@ -3,6 +3,9 @@ const COOKIE_DAYS = 90;
 
 const el = {
   host: document.getElementById("host"),
+  tabs: document.getElementById("tabs"),
+  tabSite: document.getElementById("tabSite"),
+  tabAll: document.getElementById("tabAll"),
   notice: document.getElementById("notice"),
   list: document.getElementById("list"),
   form: document.getElementById("form"),
@@ -22,6 +25,7 @@ let state = { flags: [], autoReload: true };
 let tab = null;
 let tabUrl = null;
 let editingId = null;
+let showAll = false;
 
 init();
 
@@ -42,6 +46,7 @@ async function init() {
     el.notice.textContent = "Open a http or https page to set cookies on it.";
     el.notice.hidden = false;
     el.toggleAdd.disabled = true;
+    el.tabs.hidden = true;
     return;
   }
 
@@ -51,6 +56,8 @@ async function init() {
 }
 
 function bind() {
+  el.tabSite.addEventListener("click", () => setShowAll(false));
+  el.tabAll.addEventListener("click", () => setShowAll(true));
   el.toggleAdd.addEventListener("click", () => openForm(null));
   el.fCancel.addEventListener("click", closeForm);
   el.form.addEventListener("submit", saveFlag);
@@ -81,6 +88,19 @@ function closeMenus() {
 
 function persist() {
   return chrome.storage.sync.set({ [STORE_KEY]: state });
+}
+
+function setShowAll(value) {
+  showAll = value;
+  el.tabSite.setAttribute("aria-pressed", String(!showAll));
+  el.tabAll.setAttribute("aria-pressed", String(showAll));
+  render();
+}
+
+function matchesSite(flag) {
+  if (!flag.domain) return true;
+  const domain = flag.domain.replace(/^\./, "");
+  return tabUrl.host === domain || tabUrl.host.endsWith("." + domain);
 }
 
 function cookieUrl(flag) {
@@ -115,15 +135,19 @@ async function applyValue(flag, value) {
 async function render() {
   el.list.textContent = "";
 
-  if (!state.flags.length) {
+  const visible = showAll ? state.flags : state.flags.filter(matchesSite);
+
+  if (!visible.length) {
     const empty = document.createElement("p");
     empty.className = "empty";
-    empty.textContent = "No flags yet. Add the cookie name your devs sent you and the values it accepts.";
+    empty.textContent = state.flags.length
+      ? `No flags target ${tabUrl.host}. The All tab shows every flag.`
+      : "No flags yet. Add the cookie name your devs sent you and the values it accepts.";
     el.list.append(empty);
     return;
   }
 
-  for (const flag of state.flags) {
+  for (const flag of visible) {
     const current = await readValue(flag);
     el.list.append(flagRow(flag, current));
   }
