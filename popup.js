@@ -151,6 +151,7 @@ async function applyValue(flag, value) {
 }
 
 async function render() {
+  if (el.list.contains(el.form)) closeForm();
   el.list.textContent = "";
 
   const visible = showAll ? state.flags : state.flags.filter(matchesSite);
@@ -200,6 +201,7 @@ async function render() {
 function flagRow(flag, current, showScope) {
   const wrap = document.createElement("section");
   wrap.className = "flag";
+  wrap.dataset.id = flag.id;
 
   const head = document.createElement("div");
   head.className = "flag-head";
@@ -283,11 +285,21 @@ function textButton(label, onClick) {
 }
 
 function openForm(id) {
+  closeForm();
   editingId = id;
   const flag = state.flags.find((f) => f.id === id);
   el.fName.value = flag ? flag.name : "";
   el.fValues.value = flag ? flag.values.join(", ") : "";
   el.fDomain.value = flag ? flag.domain : "";
+
+  if (flag) {
+    const card = el.list.querySelector(`.flag[data-id="${flag.id}"]`);
+    if (card) {
+      card.classList.add("editing");
+      card.append(el.form);
+    }
+  }
+
   el.fError.hidden = true;
   el.form.hidden = false;
   el.fName.focus();
@@ -297,6 +309,9 @@ function closeForm() {
   editingId = null;
   el.form.hidden = true;
   el.fError.hidden = true;
+  const editing = el.list.querySelector(".flag.editing");
+  if (editing) editing.classList.remove("editing");
+  if (el.list.contains(el.form)) el.list.before(el.form);
 }
 
 async function saveFlag(event) {

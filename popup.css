@@ -231,6 +231,15 @@ body {
   gap: 10px;
 }
 
+.flag.editing > :not(form) { display: none; }
+
+.flag .form {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
 .field { display: grid; gap: 4px; }
 
 .label {
