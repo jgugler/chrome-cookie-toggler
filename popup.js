@@ -65,6 +65,13 @@ function bind() {
     if (event.target.closest(".kebab, .actions")) return;
     closeMenus();
   });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    const open = el.list.querySelector(".actions:not([hidden])");
+    if (!open) return;
+    event.preventDefault();
+    closeMenus();
+  });
 }
 
 function closeMenus() {
