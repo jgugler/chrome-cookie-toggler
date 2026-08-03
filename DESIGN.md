@@ -241,8 +241,9 @@ a transparent 1px border at rest so the outline never shifts layout.
   genuinely live (pill, card outline, toolbar badge).
 - **Do** give every new control the pill treatment, the hover tint
   (`rgba(255, 255, 255, 0.07)`), and the `scale(0.97)` press.
-- **Do** keep `aria-pressed` on stateful buttons and the visible `:focus-visible`
-  outline on everything.
+- **Do** keep `aria-pressed` on stateful buttons, the visible `:focus-visible`
+  outline on everything, focus restoration across list re-renders (`data-focus-key`),
+  and a polite live-region announcement for every state change.
 
 ### Don't:
 - **Don't** introduce a light theme or follow `prefers-color-scheme`; the console is

@@ -91,7 +91,10 @@ hardcoded colors in rules (the badge colors in `background.js` mirror `--live`).
   the two meanings.
 - A selected Off is a muted hairline-tone pill: the resting popup stays quiet so live
   green is the only saturated voice. Blue never means an override is live.
-- Focus is always visible via `:focus-visible`.
+- Focus is always visible via `:focus-visible`, and it survives re-renders: per-flag
+  controls carry a `data-focus-key` that `render()` restores after rebuilding the list.
+- State changes are announced through the polite live region `#status` (value set,
+  override removed, flag added/saved/removed, import count).
 - Segmented control uses `role="group"` with `aria-pressed` per button.
 
 ## Testing

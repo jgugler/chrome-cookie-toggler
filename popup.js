@@ -7,6 +7,7 @@ const el = {
   tabSite: document.getElementById("tabSite"),
   tabAll: document.getElementById("tabAll"),
   notice: document.getElementById("notice"),
+  status: document.getElementById("status"),
   list: document.getElementById("list"),
   form: document.getElementById("form"),
   toggleAdd: document.getElementById("toggleAdd"),
@@ -99,6 +100,13 @@ function persist() {
   return chrome.storage.sync.set({ [STORE_KEY]: state });
 }
 
+function announce(message) {
+  el.status.textContent = "";
+  setTimeout(() => {
+    el.status.textContent = message;
+  }, 30);
+}
+
 function setShowAll(value) {
   showAll = value;
   el.tabSite.setAttribute("aria-pressed", String(!showAll));
@@ -153,12 +161,15 @@ async function applyValue(flag, value) {
     });
   }
   if (state.autoReload) chrome.tabs.reload(tab.id);
+  announce(value === null ? `${flag.name} override removed` : `${flag.name} set to ${value}`);
   render();
 }
 
 async function render() {
   if (!tabUrl) return;
   if (el.list.contains(el.form)) closeForm();
+  const active = document.activeElement;
+  const focusKey = active && active.dataset ? active.dataset.focusKey : null;
   el.list.textContent = "";
 
   const visible = showAll ? state.flags : state.flags.filter(matchesSite);
@@ -178,6 +189,7 @@ async function render() {
       const current = await readValue(flag);
       el.list.append(flagRow(flag, current, true));
     }
+    restoreFocus(focusKey);
     return;
   }
 
@@ -203,6 +215,13 @@ async function render() {
       el.list.append(flagRow(flag, current, false));
     }
   }
+  restoreFocus(focusKey);
+}
+
+function restoreFocus(focusKey) {
+  if (!focusKey) return;
+  const target = el.list.querySelector(`[data-focus-key="${CSS.escape(focusKey)}"]`);
+  if (target) target.focus();
 }
 
 function flagRow(flag, current, showScope) {
@@ -231,9 +250,13 @@ function flagRow(flag, current, showScope) {
   seg.setAttribute("role", "group");
   seg.setAttribute("aria-label", flag.name);
 
-  seg.append(segButton("Off", current === null, false, () => applyValue(flag, null)));
+  const offBtn = segButton("Off", current === null, false, () => applyValue(flag, null));
+  offBtn.dataset.focusKey = `${flag.id}|off`;
+  seg.append(offBtn);
   for (const value of flag.values) {
-    seg.append(segButton(value, current === value, true, () => applyValue(flag, value)));
+    const valueBtn = segButton(value, current === value, true, () => applyValue(flag, value));
+    valueBtn.dataset.focusKey = `${flag.id}|v|${value}`;
+    seg.append(valueBtn);
   }
 
   const removeBtn = textButton("Remove", async () => {
@@ -249,14 +272,18 @@ function flagRow(flag, current, showScope) {
     } else {
       render();
     }
+    announce(`${flag.name} removed`);
   });
   removeBtn.classList.add("danger");
+  removeBtn.dataset.focusKey = `${flag.id}|remove`;
 
   const actions = document.createElement("div");
   actions.className = "actions";
   actions.id = `actions-${flag.id}`;
   actions.hidden = true;
-  actions.append(textButton("Edit", () => openForm(flag.id)), removeBtn);
+  const editBtn = textButton("Edit", () => openForm(flag.id));
+  editBtn.dataset.focusKey = `${flag.id}|edit`;
+  actions.append(editBtn, removeBtn);
 
   const menu = document.createElement("button");
   menu.type = "button";
@@ -266,6 +293,7 @@ function flagRow(flag, current, showScope) {
   menu.setAttribute("aria-label", `More actions for ${flag.name}`);
   menu.setAttribute("aria-expanded", "false");
   menu.setAttribute("aria-controls", actions.id);
+  menu.dataset.focusKey = `${flag.id}|kebab`;
   menu.addEventListener("click", () => {
     const open = actions.hidden;
     closeMenus();
@@ -350,6 +378,7 @@ async function saveFlag(event) {
     return fail("That cookie is already in the list.");
   }
 
+  const wasEdit = Boolean(editingId);
   if (editingId) {
     state.flags = state.flags.map((f) => (f.id === editingId ? { ...f, name, values, domain } : f));
   } else {
@@ -358,6 +387,7 @@ async function saveFlag(event) {
 
   await persist();
   closeForm();
+  announce(wasEdit ? `${name} saved` : `${name} added`);
   render();
 }
 
@@ -391,8 +421,10 @@ async function importFlags(event) {
         domain: typeof f.domain === "string" ? f.domain : ""
       }));
     const existing = new Set(state.flags.map((f) => `${f.name}|${f.domain}`));
-    state.flags.push(...clean.filter((f) => !existing.has(`${f.name}|${f.domain}`)));
+    const fresh = clean.filter((f) => !existing.has(`${f.name}|${f.domain}`));
+    state.flags.push(...fresh);
     await persist();
+    announce(`${fresh.length} ${fresh.length === 1 ? "flag" : "flags"} imported`);
     render();
   } catch {
     el.notice.textContent = "That file is not a Flag Switch export. Expected a JSON array of flags.";

@@ -31,6 +31,17 @@
 
 [hidden] { display: none !important; }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 button, input { font-family: var(--sans); }
 
 button {
@@ -169,7 +180,7 @@ body {
 .flag-controls .seg { flex: 1; min-width: 0; }
 
 .kebab {
-  width: 26px;
+  width: 28px;
   flex: none;
   font-size: 14px;
   line-height: 1;
