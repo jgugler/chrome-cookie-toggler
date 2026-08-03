@@ -31,6 +31,7 @@ the Chrome Web Store, distributed as an unpacked folder.
 | `popup.css` | All styles, CSS custom properties, dark theme only |
 | `popup.js` | All logic: storage, cookie read and write, rendering, export and import |
 | `icons/` | Generated 16, 48 and 128 px PNGs |
+| `fonts/` | Inter variable font (woff2) plus its OFL license, loaded via `@font-face` |
 
 ## Data model
 
@@ -77,7 +78,9 @@ Minimal and disciplined, graphite dark theme only, the popup does not follow the
 scheme. Everything comes from the CSS custom properties at the top of `popup.css`, no
 hardcoded colors in rules (the badge colors in `background.js` mirror `--live`).
 
-- Cookie names, values and hosts are set in the mono stack, they are identifiers.
+- UI text is Inter, bundled locally in `fonts/` so the no-network rule holds, with the
+  system stack as fallback. Cookie names, values and hosts are set in the mono stack,
+  they are identifiers.
 - Two accent colors with distinct meanings. Blue (`--accent`, `#2f80ff`) is the
   interactive accent: active filter tab, the + button, Save, the switch, the selected
   Off pill in the segmented control. Green
