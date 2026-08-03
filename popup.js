@@ -233,17 +233,22 @@ function flagRow(flag, current, showScope) {
   const head = document.createElement("div");
   head.className = "flag-head";
 
+  const idWrap = document.createElement("div");
+  idWrap.className = "flag-id";
+
   const name = document.createElement("span");
   name.className = "flag-name";
   name.textContent = flag.name;
-  head.append(name);
+  idWrap.append(name);
 
   if (flag.domain && showScope) {
     const scope = document.createElement("span");
     scope.className = "flag-scope";
     scope.textContent = flag.domain;
-    head.append(scope);
+    idWrap.append(scope);
   }
+
+  head.append(idWrap);
 
   const seg = document.createElement("div");
   seg.className = "seg";
@@ -301,11 +306,9 @@ function flagRow(flag, current, showScope) {
     menu.setAttribute("aria-expanded", String(open));
   });
 
-  const controls = document.createElement("div");
-  controls.className = "flag-controls";
-  controls.append(seg, menu);
+  head.append(menu);
 
-  wrap.append(head, controls, actions);
+  wrap.append(head, seg, actions);
   return wrap;
 }
 

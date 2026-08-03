@@ -170,11 +170,20 @@ body {
 
 .flag-head {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  gap: 3px;
+  justify-content: space-between;
+  gap: 8px;
   margin-bottom: 10px;
 }
+
+.flag-id {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.flag-head .kebab { margin: -5px -6px 0 0; }
 
 .flag-name {
   font-size: 13px;
@@ -188,14 +197,6 @@ body {
   color: var(--ink-soft);
   word-break: break-all;
 }
-
-.flag-controls {
-  display: flex;
-  align-items: stretch;
-  gap: 4px;
-}
-
-.flag-controls .seg { flex: 1; min-width: 0; }
 
 .kebab {
   width: 28px;
@@ -324,7 +325,7 @@ body {
 #toggleAdd {
   width: 28px;
   height: 28px;
-  padding: 0;
+  padding: 0 0 2px;
   display: grid;
   place-items: center;
   font-size: 16px;

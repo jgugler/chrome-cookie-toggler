@@ -169,8 +169,9 @@ name is a label, not a code sample.
 A single 336px-wide column. Cards span the popup minus a 12px gutter on each side and
 stack with a 10px gap; the flag list scrolls inside a 400px max height while header,
 tabs, and footer stay put. Inside a card: 12px padding, a 10px gap between the name
-block and the control row, a 3px gap between name and domain. The segmented control
-takes the full row width minus a fixed 26px kebab; segments share the width equally
+block and the control row, a 3px gap between name and domain. The kebab sits in the
+card head on the name's line; the segmented control takes the full card width and its
+segments share it equally
 and wrap long values (`overflow-wrap: anywhere`) rather than truncating. Base rhythm
 steps are 4 / 8 / 12 / 16px. The list wears scroll shadows (surface-covered radial
 gradients with `background-attachment: local`) so a clipped card is perceivable, and
