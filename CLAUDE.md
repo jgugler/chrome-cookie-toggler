@@ -78,9 +78,8 @@ Minimal and disciplined, graphite dark theme only, the popup does not follow the
 scheme. Everything comes from the CSS custom properties at the top of `popup.css`, no
 hardcoded colors in rules (the badge colors in `background.js` mirror `--live`).
 
-- UI text is Inter, bundled locally in `fonts/` so the no-network rule holds, with the
-  system stack as fallback. Cookie names, values and hosts are set in the mono stack,
-  they are identifiers.
+- All text is Inter, bundled locally in `fonts/` so the no-network rule holds, with the
+  system stack as fallback. There is no mono stack, identifiers read as regular text.
 - Two accent colors with distinct meanings. Blue (`--accent`, `#2f80ff`) is the
   interactive accent: active filter tab, the + button, Save, the switch, the selected
   Off pill in the segmented control. Green
