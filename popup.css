@@ -183,7 +183,12 @@ body {
   min-width: 0;
 }
 
-.flag-head .kebab { margin: -5px -6px 0 0; }
+.flag-head .kebab {
+  height: 24px;
+  margin: -3.5px -6px 0 0;
+  display: grid;
+  place-items: center;
+}
 
 .flag-name {
   font-size: 13px;
