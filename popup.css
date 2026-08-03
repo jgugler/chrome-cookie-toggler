@@ -5,8 +5,6 @@
   --surface: #17181d;
   --card: #232529;
   --track: #2c2e34;
-  --pill: #ffffff;
-  --pill-ink: #17181d;
   --hairline: #3a3d45;
   --accent: #2f80ff;
   --accent-ink: #ffffff;
@@ -349,7 +347,7 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: var(--pill);
+  background: var(--ink);
   box-shadow: 0 1px 2px var(--shadow);
   transition: transform 0.15s ease;
 }
