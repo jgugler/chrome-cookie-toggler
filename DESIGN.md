@@ -9,6 +9,7 @@ colors:
   console-panel: "#232529"
   channel-track: "#2c2e34"
   hairline: "#3a3d45"
+  off-pill: "#4a4f5b"
   signal-white: "#ffffff"
   soft-white: "#e6e9ee"
   error-red: "#f2555a"
@@ -60,12 +61,12 @@ components:
     rounded: "{rounded.pill}"
     padding: "5px 14px"
   segment-off-active:
-    backgroundColor: "{colors.hairline}"
+    backgroundColor: "{colors.off-pill}"
     textColor: "{colors.signal-white}"
     padding: "6px 4px"
   segment-live:
-    backgroundColor: "{colors.live-green}"
-    textColor: "{colors.live-green-ink}"
+    backgroundColor: "{colors.switch-blue}"
+    textColor: "{colors.signal-white}"
     padding: "6px 4px"
   card-flag:
     backgroundColor: "{colors.console-panel}"
@@ -110,13 +111,14 @@ of it with strictly separated jobs.
 
 ### Primary
 - **Switch Blue** (#1d6ae8): the interactive accent. Active filter tab, the + button,
-  Save, and the settings switch. Blue marks interface chrome — never what the page is
-  doing. Deep enough that white 12px labels pass WCAG AA (4.9:1).
+  Save, the settings switch, and the selected value pill in the segmented control.
+  Blue marks what is selected. Deep enough that white 12px labels pass WCAG AA
+  (4.9:1).
 
 ### Secondary
-- **Live Green** (#52d273): the live-override signal. The active value pill, the
-  outline around a card whose cookie is set, and the toolbar badge. Text on green is
-  **Deep Stage Green** (#0f1f14), not white.
+- **Live Green** (#52d273): the live-override signal, carried by exactly two things:
+  the outline around a card whose cookie is set, and the toolbar badge. **Deep Stage
+  Green** (#0f1f14) remains its ink where green ever carries text (the badge).
 - **Error Red** (#f2555a): form validation text only.
 
 ### Neutral
@@ -124,18 +126,21 @@ of it with strictly separated jobs.
 - **Console Panel** (#232529): cards, the add/edit form, notices.
 - **Channel Track** (#2c2e34): segmented-control tracks, inputs, the switch track.
 - **Hairline** (#3a3d45): outlined pill borders.
+- **Off Pill** (#4a4f5b): the selected Off segment — one step lighter than the hover
+  tint so selection and hover never read the same.
 - **Signal White** (#ffffff): flag names, button labels, the switch knob.
 - **Soft White** (#e6e9ee): everything secondary — hosts, domains, values, labels.
 - **Focus Ring** (#7ab0ff): the `:focus-visible` outline.
 
 ### Named Rules
-**The Two Voices Rule.** Blue speaks for the interface; green speaks for the page.
-Never swap them, and never use green decoratively — no badge, pill, or outline is
+**The Two Voices Rule.** Blue speaks for the interface — every selection, including
+the selected value pill. Green speaks for the page, and only through the card outline
+and the toolbar badge. Never swap them, and never use green decoratively — nothing is
 green unless an override cookie is actually set.
 
 **The Quiet Console Rule.** At rest, nothing saturated is on screen except what is
-live. A selected Off is a muted Hairline pill (white on #3a3d45), so a wall of
-inactive flags whispers and the one green channel light carries the room.
+live. A selected Off is a muted Off Pill (white on #4a4f5b), so a wall of inactive
+flags whispers and the one green-outlined channel carries the room.
 
 ## Typography
 
@@ -203,8 +208,9 @@ a transparent 1px border at rest so the outline never shifts layout.
 ### Segmented Control (signature)
 - **Structure:** a `channel-track` (#2c2e34) strip, 3px padding, 12px radius; one
   button per value plus Off, equal widths, `role="group"` with `aria-pressed`.
-- **Off selected:** muted Hairline fill, white label — quiet interface state.
-- **Value selected:** Live Green fill, Deep Stage Green label — page state.
+- **Off selected:** muted Off Pill fill, white label — quiet interface state.
+- **Value selected:** Switch Blue fill, white label; the page state itself shows as
+  the card's Live Green outline.
 - **Idle segments:** transparent with Soft White text; hover tints the segment with
   `rgba(255, 255, 255, 0.07)` and brightens the label to white.
 - **Selected hover:** `filter: brightness(1.08)` — still pressable, never inert.
@@ -245,9 +251,9 @@ a transparent 1px border at rest so the outline never shifts layout.
 ### Do:
 - **Do** route every color through the CSS custom properties at the top of
   `popup.css`; the only hardcoded mirror allowed is the badge pair in `background.js`.
-- **Do** keep The Two Voices Rule and The Quiet Console Rule: blue for interface
-  chrome, muted pills for resting selection, green only when an override cookie is
-  genuinely live (pill, card outline, toolbar badge).
+- **Do** keep The Two Voices Rule and The Quiet Console Rule: blue for selection and
+  interface chrome, muted pills for a selected Off, green only when an override
+  cookie is genuinely live (card outline, toolbar badge).
 - **Do** give every new control the pill treatment, the hover tint
   (`rgba(255, 255, 255, 0.07)`), and the `scale(0.97)` press.
 - **Do** keep `aria-pressed` on stateful buttons, the visible `:focus-visible`

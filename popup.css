@@ -30,6 +30,7 @@
   --card: #232529;
   --track: #2c2e34;
   --hairline: #3a3d45;
+  --off-pill: #4a4f5b;
   --accent: #1d6ae8;
   --accent-ink: #ffffff;
   --live: #52d273;
@@ -232,13 +233,13 @@ body {
 }
 
 .seg button[aria-pressed="true"] {
-  background: var(--hairline);
+  background: var(--off-pill);
   color: var(--ink);
 }
 
 .seg button.live[aria-pressed="true"] {
-  background: var(--live);
-  color: var(--live-ink);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .seg button[aria-pressed="true"]:hover { filter: brightness(1.08); }
@@ -323,6 +324,9 @@ body {
 #toggleAdd {
   width: 28px;
   height: 28px;
+  padding: 0;
+  display: grid;
+  place-items: center;
   font-size: 16px;
   line-height: 1;
   flex: none;

@@ -85,13 +85,14 @@ hardcoded colors in rules (the badge colors in `background.js` mirror `--live`).
 - All text is IBM Plex Sans (weights 400/500/600), bundled locally in `fonts/` so the
   no-network rule holds, with the system stack as fallback. There is no mono stack,
   identifiers read as regular text.
-- Two accent colors with distinct meanings. Blue (`--accent`, `#1d6ae8`) is the
-  interactive accent: active filter tab, the + button, Save, the switch. Green
-  (`--live`, `#52d273`) means an override is live on the page in
-  front of you: the active value pill, the card outline, the toolbar badge. Do not mix
-  the two meanings.
-- A selected Off is a muted hairline-tone pill: the resting popup stays quiet so live
-  green is the only saturated voice. Blue never means an override is live.
+- Two accent colors with distinct meanings. Blue (`--accent`, `#1d6ae8`) marks
+  selection and interface chrome: active filter tab, the + button, Save, the switch,
+  and the selected value pill in the segmented control. Green (`--live`, `#52d273`)
+  means an override is live on the page in front of you, carried by the card outline
+  and the toolbar badge only. Do not mix the two meanings.
+- A selected Off is a muted pill (`--off-pill`, `#4a4f5b`), deliberately a step
+  lighter than the hover tint so selection and hover never read the same. The resting
+  popup stays quiet; green appears only when something is live.
 - Focus is always visible via `:focus-visible`, and it survives re-renders: per-flag
   controls carry a `data-focus-key` that `render()` restores after rebuilding the list.
 - State changes are announced through the polite live region `#status` (value set,
