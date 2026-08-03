@@ -79,11 +79,12 @@ rules (the badge colors in `background.js` mirror `--live`).
 
 - Cookie names, values and hosts are set in the mono stack, they are identifiers.
 - Two accent colors with distinct meanings. Blue (`--accent`, `#2f80ff`) is the
-  interactive accent: active filter tab, the + button, Save, the switch. Green
+  interactive accent: active filter tab, the + button, Save, the switch, the selected
+  Off pill in the segmented control. Green
   (`--live`, `#178a42` light, `#52d273` dark) means an override is live on the page in
   front of you: the active value pill, the card outline, the toolbar badge. Do not mix
   the two meanings.
-- Off reads neutral, a white pill.
+- A selected Off is a blue pill, blue never means an override is live.
 - Focus is always visible via `:focus-visible`.
 - Segmented control uses `role="group"` with `aria-pressed` per button.
 

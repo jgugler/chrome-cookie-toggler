@@ -212,20 +212,16 @@ body {
 }
 
 .seg button[aria-pressed="true"] {
-  background: var(--pill);
-  color: var(--pill-ink);
-  box-shadow: 0 1px 3px var(--shadow);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .seg button.live[aria-pressed="true"] {
   background: var(--live);
   color: var(--live-ink);
-  box-shadow: none;
 }
 
-.seg button[aria-pressed="true"]:hover { filter: brightness(0.97); }
-
-.seg button.live[aria-pressed="true"]:hover { filter: brightness(1.08); }
+.seg button[aria-pressed="true"]:hover { filter: brightness(1.08); }
 
 .actions {
   display: flex;
