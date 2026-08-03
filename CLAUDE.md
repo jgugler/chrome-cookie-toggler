@@ -84,13 +84,13 @@ hardcoded colors in rules (the badge colors in `background.js` mirror `--live`).
 
 - All text is Inter, bundled locally in `fonts/` so the no-network rule holds, with the
   system stack as fallback. There is no mono stack, identifiers read as regular text.
-- Two accent colors with distinct meanings. Blue (`--accent`, `#2f80ff`) is the
-  interactive accent: active filter tab, the + button, Save, the switch, the selected
-  Off pill in the segmented control. Green
+- Two accent colors with distinct meanings. Blue (`--accent`, `#1d6ae8`) is the
+  interactive accent: active filter tab, the + button, Save, the switch. Green
   (`--live`, `#52d273`) means an override is live on the page in
   front of you: the active value pill, the card outline, the toolbar badge. Do not mix
   the two meanings.
-- A selected Off is a blue pill, blue never means an override is live.
+- A selected Off is a muted hairline-tone pill: the resting popup stays quiet so live
+  green is the only saturated voice. Blue never means an override is live.
 - Focus is always visible via `:focus-visible`.
 - Segmented control uses `role="group"` with `aria-pressed` per button.
 

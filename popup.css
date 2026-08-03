@@ -14,7 +14,7 @@
   --card: #232529;
   --track: #2c2e34;
   --hairline: #3a3d45;
-  --accent: #2f80ff;
+  --accent: #1d6ae8;
   --accent-ink: #ffffff;
   --live: #52d273;
   --live-ink: #0f1f14;
@@ -194,8 +194,8 @@ body {
 }
 
 .seg button[aria-pressed="true"] {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--hairline);
+  color: var(--ink);
 }
 
 .seg button.live[aria-pressed="true"] {

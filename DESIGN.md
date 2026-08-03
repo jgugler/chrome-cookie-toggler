@@ -2,7 +2,7 @@
 name: Flag Switch
 description: A quiet stage console for flipping a/b test cookies in one click.
 colors:
-  switch-blue: "#2f80ff"
+  switch-blue: "#1d6ae8"
   live-green: "#52d273"
   live-green-ink: "#0f1f14"
   graphite-floor: "#17181d"
@@ -56,7 +56,7 @@ components:
     rounded: "{rounded.pill}"
     padding: "5px 14px"
   segment-off-active:
-    backgroundColor: "{colors.switch-blue}"
+    backgroundColor: "{colors.hairline}"
     textColor: "{colors.signal-white}"
     padding: "6px 4px"
   segment-live:
@@ -105,9 +105,9 @@ A near-black graphite ramp carries the whole surface; two saturated voices sit o
 of it with strictly separated jobs.
 
 ### Primary
-- **Switch Blue** (#2f80ff): the interactive accent. Active filter tab, the + button,
-  Save, the settings switch, and the selected Off pill in the segmented control. Blue
-  marks what the interface has selected — never what the page is doing.
+- **Switch Blue** (#1d6ae8): the interactive accent. Active filter tab, the + button,
+  Save, and the settings switch. Blue marks interface chrome — never what the page is
+  doing. Deep enough that white 12px labels pass WCAG AA (4.9:1).
 
 ### Secondary
 - **Live Green** (#52d273): the live-override signal. The active value pill, the
@@ -126,9 +126,12 @@ of it with strictly separated jobs.
 
 ### Named Rules
 **The Two Voices Rule.** Blue speaks for the interface; green speaks for the page.
-A selected Off is blue because it is interface state; a live value is green because it
-is page state. Never swap them, and never use green decoratively — no badge, pill, or
-outline is green unless an override cookie is actually set.
+Never swap them, and never use green decoratively — no badge, pill, or outline is
+green unless an override cookie is actually set.
+
+**The Quiet Console Rule.** At rest, nothing saturated is on screen except what is
+live. A selected Off is a muted Hairline pill (white on #3a3d45), so a wall of
+inactive flags whispers and the one green channel light carries the room.
 
 ## Typography
 
@@ -188,7 +191,7 @@ a transparent 1px border at rest so the outline never shifts layout.
 ### Segmented Control (signature)
 - **Structure:** a `channel-track` (#2c2e34) strip, 3px padding, 12px radius; one
   button per value plus Off, equal widths, `role="group"` with `aria-pressed`.
-- **Off selected:** Switch Blue fill, white label — interface state.
+- **Off selected:** muted Hairline fill, white label — quiet interface state.
 - **Value selected:** Live Green fill, Deep Stage Green label — page state.
 - **Idle segments:** transparent with Soft White text; hover tints the segment with
   `rgba(255, 255, 255, 0.07)` and brightens the label to white.
@@ -230,8 +233,9 @@ a transparent 1px border at rest so the outline never shifts layout.
 ### Do:
 - **Do** route every color through the CSS custom properties at the top of
   `popup.css`; the only hardcoded mirror allowed is the badge pair in `background.js`.
-- **Do** keep The Two Voices Rule: blue for interface state, green only when an
-  override cookie is genuinely live (pill, card outline, toolbar badge).
+- **Do** keep The Two Voices Rule and The Quiet Console Rule: blue for interface
+  chrome, muted pills for resting selection, green only when an override cookie is
+  genuinely live (pill, card outline, toolbar badge).
 - **Do** give every new control the pill treatment, the hover tint
   (`rgba(255, 255, 255, 0.07)`), and the `scale(0.97)` press.
 - **Do** keep `aria-pressed` on stateful buttons and the visible `:focus-visible`
