@@ -13,6 +13,12 @@ function cookieUrl(tabUrl, flag) {
   return `${tabUrl.protocol}//${host}/`;
 }
 
+function matchesSite(tabUrl, flag) {
+  if (!flag.domain) return true;
+  const domain = flag.domain.replace(/^\./, "");
+  return tabUrl.host === domain || tabUrl.host.endsWith("." + domain);
+}
+
 async function liveCount(tab) {
   let url;
   try {
@@ -22,7 +28,7 @@ async function liveCount(tab) {
   }
   if (!/^https?:$/.test(url.protocol)) return 0;
 
-  const flags = await getFlags();
+  const flags = (await getFlags()).filter((flag) => matchesSite(url, flag));
   const cookies = await Promise.all(
     flags.map((flag) =>
       chrome.cookies.get({ url: cookieUrl(url, flag), name: flag.name }).catch(() => null)

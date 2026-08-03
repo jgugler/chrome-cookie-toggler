@@ -65,9 +65,11 @@ path, existing installs already hold data.
   grouped by domain: the domain-less group is labeled with the current host and sorts
   first, the rest alphabetically. Grouped cards skip their own domain line, the group
   heading carries it. The choice is per popup open, it is not persisted.
-- The toolbar badge shows how many registered flag cookies exist on the active tab,
-  computed per tab in `background.js` on tab switch, navigation, cookie and storage
-  changes. No badge means no override is live.
+- The toolbar badge shows how many flag cookies are live for the site in the active
+  tab. Only flags whose domain matches the tab's host (or a parent of it) count,
+  same matching rule as the This site tab. Computed per tab in `background.js` on tab
+  switch, navigation, cookie and storage changes. No badge means no override is live
+  on the site in front of you.
 
 ## Design language
 
