@@ -21,3 +21,6 @@ node_modules/
 # Local dev preview harness
 preview/
 .claude/launch.json
+
+# Impeccable local state (DESIGN.md itself is committed)
+.impeccable/
