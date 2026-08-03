@@ -56,6 +56,10 @@ path, existing installs already hold data.
 - Lifetime is `COOKIE_DAYS` in `popup.js`, currently 90 days, so flags survive a restart.
 - `secure` is set when the page is https.
 - Off removes the cookie via `chrome.cookies.remove`, it does not write an empty value.
+- Remove asks once (the button flips to a filled Remove?), and removing a flag whose
+  cookie is live also removes the cookie, so no override outlives its flag.
+- On non-http pages the list and add form are unavailable, but Export, Import and the
+  reload toggle stay functional.
 - After any change the tab reloads if `autoReload` is on.
 - The Domain field normalizes pasted URLs via `normalizeDomain` in `popup.js`, on field
   change and again on save: it keeps the hostname, drops protocol, port, path, query and

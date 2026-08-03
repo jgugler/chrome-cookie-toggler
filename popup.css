@@ -317,6 +317,17 @@ body {
 
 .ghost.text:hover { border-color: var(--ink-soft); }
 
+.ghost.text.danger { color: var(--error); }
+
+.ghost.text.danger:hover { border-color: var(--error); }
+
+.ghost.text.danger.confirm,
+.ghost.text.danger.confirm:hover {
+  background: var(--error);
+  border-color: var(--error);
+  color: var(--surface);
+}
+
 .check {
   display: flex;
   align-items: center;

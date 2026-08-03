@@ -41,9 +41,12 @@ async function init() {
     tabUrl = null;
   }
 
+  bind();
+
   if (!tabUrl || !/^https?:$/.test(tabUrl.protocol)) {
+    tabUrl = null;
     el.host.textContent = "no site";
-    el.notice.textContent = "Open a http or https page to set cookies on it.";
+    el.notice.textContent = "Open a http or https page to set cookies on it. Export and import still work here.";
     el.notice.hidden = false;
     el.toggleAdd.disabled = true;
     el.tabs.hidden = true;
@@ -51,7 +54,6 @@ async function init() {
   }
 
   el.host.textContent = tabUrl.host;
-  bind();
   render();
 }
 
@@ -87,6 +89,10 @@ function bind() {
 function closeMenus() {
   for (const actions of el.list.querySelectorAll(".actions")) actions.hidden = true;
   for (const kebab of el.list.querySelectorAll(".kebab")) kebab.setAttribute("aria-expanded", "false");
+  for (const confirm of el.list.querySelectorAll(".danger.confirm")) {
+    confirm.classList.remove("confirm");
+    confirm.textContent = "Remove";
+  }
 }
 
 function persist() {
@@ -151,6 +157,7 @@ async function applyValue(flag, value) {
 }
 
 async function render() {
+  if (!tabUrl) return;
   if (el.list.contains(el.form)) closeForm();
   el.list.textContent = "";
 
@@ -229,18 +236,27 @@ function flagRow(flag, current, showScope) {
     seg.append(segButton(value, current === value, true, () => applyValue(flag, value)));
   }
 
+  const removeBtn = textButton("Remove", async () => {
+    if (!removeBtn.classList.contains("confirm")) {
+      removeBtn.classList.add("confirm");
+      removeBtn.textContent = "Remove?";
+      return;
+    }
+    state.flags = state.flags.filter((f) => f.id !== flag.id);
+    await persist();
+    if (current !== null) {
+      await applyValue(flag, null);
+    } else {
+      render();
+    }
+  });
+  removeBtn.classList.add("danger");
+
   const actions = document.createElement("div");
   actions.className = "actions";
   actions.id = `actions-${flag.id}`;
   actions.hidden = true;
-  actions.append(
-    textButton("Edit", () => openForm(flag.id)),
-    textButton("Remove", async () => {
-      state.flags = state.flags.filter((f) => f.id !== flag.id);
-      await persist();
-      render();
-    })
-  );
+  actions.append(textButton("Edit", () => openForm(flag.id)), removeBtn);
 
   const menu = document.createElement("button");
   menu.type = "button";
