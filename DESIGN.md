@@ -15,20 +15,20 @@ colors:
   focus-ring: "#7ab0ff"
 typography:
   title:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "13px"
     fontWeight: 600
     letterSpacing: "-0.01em"
   body:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "14px"
     fontWeight: 400
   label:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "12px"
     fontWeight: 500
   caption:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "11px"
     fontWeight: 400
 rounded:
@@ -97,7 +97,7 @@ looking at is running an override right now."
 - Two-voice color system: interactive blue, live-signal green
 - Every pressable surface is a pill; every card is softly rounded (16px)
 - Tactile, springy controls: tint on hover, compress on press
-- One typeface (Inter) at four sizes; hierarchy by weight and brightness
+- One typeface (IBM Plex Sans) at four sizes; hierarchy by weight and brightness
 
 ## Colors
 
@@ -135,11 +135,13 @@ inactive flags whispers and the one green channel light carries the room.
 
 ## Typography
 
-**UI Font:** Inter (variable, bundled locally in `fonts/`; system-ui fallback)
+**UI Font:** IBM Plex Sans (400/500/600 woff2, bundled locally in `fonts/`;
+system-ui fallback)
 
-**Character:** One voice for everything. Identifiers — cookie names, hosts, values —
-read as regular text, not code; there is deliberately no mono stack. Hierarchy comes
-from weight and brightness, not from changing faces.
+**Character:** One engineered voice for everything — Plex's instrument-grade
+letterforms fit a console that is literally about flipping switches. Identifiers —
+cookie names, hosts, values — read as regular text, not code; there is deliberately
+no mono stack. Hierarchy comes from weight and brightness, not from changing faces.
 
 ### Hierarchy
 - **Title** (600, 13px, -0.01em): flag names, the strongest text on a card.

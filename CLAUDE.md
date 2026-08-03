@@ -31,7 +31,7 @@ the Chrome Web Store, distributed as an unpacked folder.
 | `popup.css` | All styles, CSS custom properties, dark theme only |
 | `popup.js` | All logic: storage, cookie read and write, rendering, export and import |
 | `icons/` | Generated 16, 48 and 128 px PNGs |
-| `fonts/` | Inter variable font (woff2) plus its OFL license, loaded via `@font-face` |
+| `fonts/` | IBM Plex Sans woff2 (400/500/600) plus its OFL license, loaded via `@font-face` |
 
 ## Data model
 
@@ -82,8 +82,9 @@ Minimal and disciplined, graphite dark theme only, the popup does not follow the
 scheme. Everything comes from the CSS custom properties at the top of `popup.css`, no
 hardcoded colors in rules (the badge colors in `background.js` mirror `--live`).
 
-- All text is Inter, bundled locally in `fonts/` so the no-network rule holds, with the
-  system stack as fallback. There is no mono stack, identifiers read as regular text.
+- All text is IBM Plex Sans (weights 400/500/600), bundled locally in `fonts/` so the
+  no-network rule holds, with the system stack as fallback. There is no mono stack,
+  identifiers read as regular text.
 - Two accent colors with distinct meanings. Blue (`--accent`, `#1d6ae8`) is the
   interactive accent: active filter tab, the + button, Save, the switch. Green
   (`--live`, `#52d273`) means an override is live on the page in
