@@ -159,7 +159,10 @@ tabs, and footer stay put. Inside a card: 12px padding, a 10px gap between the n
 block and the control row, a 3px gap between name and domain. The segmented control
 takes the full row width minus a fixed 26px kebab; segments share the width equally
 and wrap long values (`overflow-wrap: anywhere`) rather than truncating. Base rhythm
-steps are 4 / 8 / 12 / 16px.
+steps are 4 / 8 / 12 / 16px. The list wears scroll shadows (surface-covered radial
+gradients with `background-attachment: local`) so a clipped card is perceivable, and
+caps at 220px while the add form is open so header, form and footer share the popup
+without the frame itself scrolling.
 
 ## Elevation & Depth
 

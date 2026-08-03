@@ -319,6 +319,7 @@ function openForm(id) {
 
   el.fError.hidden = true;
   el.form.hidden = false;
+  document.body.classList.toggle("form-open", !el.list.contains(el.form));
   el.fName.focus();
 }
 
@@ -326,6 +327,7 @@ function closeForm() {
   editingId = null;
   el.form.hidden = true;
   el.fError.hidden = true;
+  document.body.classList.remove("form-open");
   const editing = el.list.querySelector(".flag.editing");
   if (editing) editing.classList.remove("editing");
   if (el.list.contains(el.form)) el.list.before(el.form);
