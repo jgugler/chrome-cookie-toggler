@@ -16,7 +16,7 @@ A small Chrome extension for switching test cookies on stage. Paste in a cookie 
 3. Cookie name: `checkout-ab`. Values: `a, b`. Domain: leave empty.
 4. The flag appears with an `Off | a | b` control. Click a value to set the cookie, click Off to delete it.
 
-Off is neutral, an active variant is filled with the coral accent, so you can see at a glance whether an override is live on the page you are looking at.
+Off is neutral, an active variant is filled green and the card gets a green outline, so you can see at a glance whether an override is live on the page you are looking at.
 
 ## Behaviour and defaults
 

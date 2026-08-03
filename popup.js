@@ -202,6 +202,7 @@ function flagRow(flag, current, showScope) {
   const wrap = document.createElement("section");
   wrap.className = "flag";
   wrap.dataset.id = flag.id;
+  if (current !== null) wrap.classList.add("live");
 
   const head = document.createElement("div");
   head.className = "flag-head";

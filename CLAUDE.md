@@ -73,13 +73,17 @@ path, existing installs already hold data.
 
 ## Design language
 
-Minimal and disciplined. Everything comes from the CSS custom
-properties at the top of `popup.css`, no hardcoded colors in rules.
+Minimal and disciplined, graphite dark theme with a matching light variant. Everything
+comes from the CSS custom properties at the top of `popup.css`, no hardcoded colors in
+rules (the badge colors in `background.js` mirror `--live`).
 
 - Cookie names, values and hosts are set in the mono stack, they are identifiers.
-- Off reads neutral. An active variant is filled with the coral accent (`--accent`,
-  `#ee5a5f` light, `#f2605e` dark), the coral means an override is live on the page in
-  front of you. Keep that meaning intact, do not use the accent for anything decorative.
+- Two accent colors with distinct meanings. Blue (`--accent`, `#2f80ff`) is the
+  interactive accent: active filter tab, the + button, Save, the switch. Green
+  (`--live`, `#178a42` light, `#52d273` dark) means an override is live on the page in
+  front of you: the active value pill, the card outline, the toolbar badge. Do not mix
+  the two meanings.
+- Off reads neutral, a white pill.
 - Focus is always visible via `:focus-visible`.
 - Segmented control uses `role="group"` with `aria-pressed` per button.
 
