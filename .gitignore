@@ -15,8 +15,8 @@ Thumbs.db
 # Just in case tooling sneaks in (project is intentionally dependency-free)
 node_modules/
 
-# Local Claude Code settings
-.claude/settings.local.json
+# Local Claude Code settings and tooling
+.claude/
 
 # Local dev preview harness
 preview/
