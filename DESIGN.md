@@ -31,8 +31,12 @@ typography:
     fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "11px"
     fontWeight: 400
+  icon-glyph:
+    fontSize: "16px"
+    fontWeight: 400
 rounded:
   control: "12px"
+  segment: "9px"
   card: "16px"
   pill: "999px"
 spacing:
@@ -148,6 +152,8 @@ no mono stack. Hierarchy comes from weight and brightness, not from changing fac
 - **Body** (400, 14px): the base size on `body`; empty states and notices at 13px.
 - **Label** (500, 12px): buttons, tabs, segmented values, form inputs and labels.
 - **Caption** (400, 11px): domain scopes and group headings; the quietest layer.
+- **Icon glyph** (400, 16px): text-drawn icon characters only — the + in its circle
+  (with the ⋮ kebab at 14px inside the same role); never running text.
 
 ### Named Rules
 **The No-Code-Voice Rule.** Nothing in the popup is set in a monospace face. A cookie
@@ -185,8 +191,9 @@ shadow, the user's pointer is on it.
 ## Shapes
 
 Two radii and a circle. Containers — cards, the form, notices — use a soft 16px
-corner. Control internals — segmented tracks, inputs — use 12px, with segments at
-`calc(12px - 3px)` so the inner pill nests the 3px track padding optically evenly.
+corner. Control internals — segmented tracks, inputs — use 12px, with segments on the
+9px `--radius-segment` token (derived as `calc(var(--radius) - 3px)`) so the inner
+pill nests the 3px track padding optically evenly.
 Everything action-shaped is a full pill (999px): buttons, tabs, the switch, the +
 circle. A live card's green outline is a 1px border on the 16px shape; cards reserve
 a transparent 1px border at rest so the outline never shifts layout.
