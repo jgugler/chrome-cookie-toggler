@@ -49,7 +49,7 @@ body {
   width: 336px;
   margin: 0;
   font-family: var(--sans);
-  font-size: 13px;
+  font-size: 14px;
   color: var(--ink);
   background: var(--surface);
 }
@@ -67,7 +67,7 @@ body {
 }
 
 .host {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: -0.01em;
   color: var(--ink-soft);
   overflow: hidden;
@@ -87,7 +87,7 @@ body {
   border-radius: 999px;
   background: transparent;
   color: var(--ink-soft);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
 }
@@ -113,7 +113,7 @@ body {
 
 .group {
   margin: 6px 16px 6px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 400;
   color: var(--ink-soft);
   word-break: break-all;
@@ -138,14 +138,14 @@ body {
 }
 
 .flag-name {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
   word-break: break-all;
 }
 
 .flag-scope {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--ink-soft);
   word-break: break-all;
 }
@@ -183,7 +183,7 @@ body {
   border-radius: calc(var(--radius) - 3px);
   background: transparent;
   color: var(--ink-soft);
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   overflow-wrap: anywhere;
 }
@@ -232,7 +232,7 @@ body {
 .field { display: grid; gap: 4px; }
 
 .label {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink-soft);
 }
 
@@ -245,7 +245,7 @@ body {
   border-radius: var(--radius);
   background: var(--track);
   color: var(--ink);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .row { display: flex; align-items: center; gap: 8px; }
@@ -257,7 +257,7 @@ body {
   border-radius: 999px;
   background: var(--accent);
   color: var(--accent-ink);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
 }
@@ -308,7 +308,7 @@ body {
 
 .ghost.text {
   padding: 5px 14px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--ink);
   border: 1px solid var(--hairline);
@@ -321,7 +321,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink-soft);
   cursor: pointer;
 }
@@ -359,7 +359,7 @@ body {
 .empty, .notice {
   padding: 20px 12px;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--ink-soft);
   line-height: 1.5;
 }
@@ -374,7 +374,7 @@ body {
 
 .error {
   margin: 0;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--error);
 }
 
