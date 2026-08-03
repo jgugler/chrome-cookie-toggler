@@ -1,7 +1,7 @@
 const STORE_KEY = "flagSwitch";
 
-chrome.action.setBadgeBackgroundColor({ color: "#178a42" });
-chrome.action.setBadgeTextColor({ color: "#ffffff" });
+chrome.action.setBadgeBackgroundColor({ color: "#52d273" });
+chrome.action.setBadgeTextColor({ color: "#0f1f14" });
 
 async function getFlags() {
   const stored = await chrome.storage.sync.get(STORE_KEY);
