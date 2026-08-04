@@ -19,19 +19,22 @@ typography:
     fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "13px"
     fontWeight: 600
-    letterSpacing: "-0.01em"
+    lineHeight: 1.3
   body:
     fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: "14px"
+    fontSize: "13px"
     fontWeight: 400
+    lineHeight: 1.45
   label:
     fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "12px"
     fontWeight: 500
+    lineHeight: 1.35
   caption:
     fontFamily: "IBM Plex Sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "11px"
     fontWeight: 400
+    letterSpacing: "0.02em"
   icon-glyph:
     fontSize: "16px"
     fontWeight: 400
@@ -154,10 +157,15 @@ cookie names, hosts, values — read as regular text, not code; there is deliber
 no mono stack. Hierarchy comes from weight and brightness, not from changing faces.
 
 ### Hierarchy
-- **Title** (600, 13px, -0.01em): flag names, the strongest text on a card.
-- **Body** (400, 14px): the base size on `body`; empty states and notices at 13px.
-- **Label** (500, 12px): buttons, tabs, segmented values, form inputs and labels.
-- **Caption** (400, 11px): domain scopes and group headings; the quietest layer.
+- **Title** (600, 13px, lh 1.3): flag names, the strongest text on a card; neutral
+  tracking — never negative on the dark surface.
+- **Body** (400, 13px, lh 1.45): the base on `body`; empty states and notices
+  inherit it. 13px is the deliberate dense-popup base, below the ordinary 16px web
+  floor because the surface is a 336px tool, not prose.
+- **Label** (500, 12px, lh 1.35): buttons, tabs, segmented values, form inputs and
+  labels. The live-bar count sets `tabular-nums` so a changing count never jitters.
+- **Caption** (400, 11px, +0.02em): group headings and the Current site label; the
+  quietest, smallest layer gets a touch of open tracking to stay legible on graphite.
 - **Icon glyph** (400, 16px): text-drawn icon characters only — the + in its circle
   (with the ⋮ kebab at 14px inside the same role); never running text.
 
