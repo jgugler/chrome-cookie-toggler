@@ -191,10 +191,21 @@ body {
 }
 
 .flag-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
   word-break: break-all;
+}
+
+.led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--live);
+  flex: none;
 }
 
 .flag-scope {
@@ -236,6 +247,23 @@ body {
 .seg button:hover {
   background: var(--hover);
   color: var(--ink);
+}
+
+.seg .off {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  position: relative;
+  margin-right: 5px;
+}
+
+.seg .off::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: 5px;
+  bottom: 5px;
+  width: 1px;
+  background: var(--hairline);
 }
 
 .seg button[aria-pressed="true"] {
@@ -414,6 +442,30 @@ body {
 .check input:checked { background: var(--accent); }
 
 .check input:checked::after { transform: translateX(14px); }
+
+.livebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 12px 10px;
+  padding: 4px 4px 4px 12px;
+  border: 1px solid var(--live);
+  border-radius: 999px;
+}
+
+.live-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--live);
+}
+
+.empty-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-bottom: 16px;
+}
 
 .empty, .notice {
   padding: 20px 12px;

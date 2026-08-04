@@ -8,6 +8,9 @@ const el = {
   tabAll: document.getElementById("tabAll"),
   notice: document.getElementById("notice"),
   status: document.getElementById("status"),
+  livebar: document.getElementById("livebar"),
+  liveCount: document.getElementById("liveCount"),
+  allOff: document.getElementById("allOff"),
   list: document.getElementById("list"),
   form: document.getElementById("form"),
   toggleAdd: document.getElementById("toggleAdd"),
@@ -74,17 +77,53 @@ function bind() {
   el.exportBtn.addEventListener("click", exportFlags);
   el.importBtn.addEventListener("click", () => el.importFile.click());
   el.importFile.addEventListener("change", importFlags);
+  el.allOff.addEventListener("click", async () => {
+    if (!el.allOff.classList.contains("confirm")) {
+      el.allOff.classList.add("confirm");
+      el.allOff.textContent = "All off?";
+      return;
+    }
+    resetAllOff();
+    const liveFlags = [];
+    for (const flag of state.flags.filter(matchesSite)) {
+      if ((await readValue(flag)) !== null) liveFlags.push(flag);
+    }
+    await Promise.all(
+      liveFlags.map((flag) => chrome.cookies.remove({ url: cookieUrl(flag), name: flag.name }))
+    );
+    if (state.autoReload) chrome.tabs.reload(tab.id);
+    announce(`${liveFlags.length} ${liveFlags.length === 1 ? "override" : "overrides"} removed`);
+    render();
+  });
   document.addEventListener("click", (event) => {
+    if (!event.target.closest("#allOff")) resetAllOff();
     if (event.target.closest(".kebab, .actions")) return;
     closeMenus();
   });
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
     const open = el.list.querySelector(".actions:not([hidden])");
-    if (!open) return;
+    const armed = el.allOff.classList.contains("confirm");
+    if (!open && !armed) return;
     event.preventDefault();
     closeMenus();
+    resetAllOff();
   });
+}
+
+function resetAllOff() {
+  el.allOff.classList.remove("confirm");
+  el.allOff.textContent = "All off";
+}
+
+async function updateLivebar() {
+  let count = 0;
+  for (const flag of state.flags.filter(matchesSite)) {
+    if ((await readValue(flag)) !== null) count++;
+  }
+  el.livebar.hidden = count === 0;
+  if (count) el.liveCount.textContent = `${count} live on this site`;
+  resetAllOff();
 }
 
 function closeMenus() {
@@ -179,8 +218,18 @@ async function render() {
     empty.className = "empty";
     empty.textContent = state.flags.length
       ? `No flags target ${tabUrl.host}. The All tab shows every flag.`
-      : "No flags yet. Add the cookie name your devs sent you and the values it accepts.";
+      : "No flags yet. Add the cookie name your devs sent you, or import their file.";
     el.list.append(empty);
+    if (!state.flags.length) {
+      const starters = document.createElement("div");
+      starters.className = "empty-actions";
+      starters.append(
+        textButton("Add a flag", () => openForm(null)),
+        textButton("Import", () => el.importFile.click())
+      );
+      el.list.append(starters);
+    }
+    updateLivebar();
     return;
   }
 
@@ -190,6 +239,7 @@ async function render() {
       el.list.append(flagRow(flag, current, true));
     }
     restoreFocus(focusKey);
+    updateLivebar();
     return;
   }
 
@@ -216,6 +266,7 @@ async function render() {
     }
   }
   restoreFocus(focusKey);
+  updateLivebar();
 }
 
 function restoreFocus(focusKey) {
@@ -239,6 +290,16 @@ function flagRow(flag, current, showScope) {
   const name = document.createElement("span");
   name.className = "flag-name";
   name.textContent = flag.name;
+  if (current !== null) {
+    const led = document.createElement("span");
+    led.className = "led";
+    led.setAttribute("aria-hidden", "true");
+    name.prepend(led);
+    const srLive = document.createElement("span");
+    srLive.className = "sr-only";
+    srLive.textContent = " live";
+    name.append(srLive);
+  }
   idWrap.append(name);
 
   if (flag.domain && showScope) {
@@ -256,6 +317,7 @@ function flagRow(flag, current, showScope) {
   seg.setAttribute("aria-label", flag.name);
 
   const offBtn = segButton("Off", current === null, false, () => applyValue(flag, null));
+  offBtn.classList.add("off");
   offBtn.dataset.focusKey = `${flag.id}|off`;
   seg.append(offBtn);
   for (const value of flag.values) {

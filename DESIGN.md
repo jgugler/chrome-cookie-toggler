@@ -116,9 +116,10 @@ of it with strictly separated jobs.
   (4.9:1).
 
 ### Secondary
-- **Live Green** (#52d273): the live-override signal, carried by exactly two things:
-  the outline around a card whose cookie is set, and the toolbar badge. **Deep Stage
-  Green** (#0f1f14) remains its ink where green ever carries text (the badge).
+- **Live Green** (#52d273): the live-override signal, carried by the LED dot beside a
+  live flag's name, the outline around its card, the live bar's border and count, and
+  the toolbar badge. **Deep Stage Green** (#0f1f14) remains its ink where green ever
+  carries text on a green fill (the badge).
 - **Error Red** (#f2555a): form validation text only.
 
 ### Neutral
@@ -134,9 +135,9 @@ of it with strictly separated jobs.
 
 ### Named Rules
 **The Two Voices Rule.** Blue speaks for the interface — every selection, including
-the selected value pill. Green speaks for the page, and only through the card outline
-and the toolbar badge. Never swap them, and never use green decoratively — nothing is
-green unless an override cookie is actually set.
+the selected value pill. Green speaks for the page: the LED dot, the card outline,
+the live bar, the badge. Never swap them, and never use green decoratively — nothing
+is green unless an override cookie is actually set.
 
 **The Quiet Console Rule.** At rest, nothing saturated is on screen except what is
 live. A selected Off is a muted Off Pill (white on #4a4f5b), so a wall of inactive
@@ -159,6 +160,11 @@ no mono stack. Hierarchy comes from weight and brightness, not from changing fac
 - **Caption** (400, 11px): domain scopes and group headings; the quietest layer.
 - **Icon glyph** (400, 16px): text-drawn icon characters only — the + in its circle
   (with the ⋮ kebab at 14px inside the same role); never running text.
+
+### Empty State
+- "No flags yet. Add the cookie name your devs sent you, or import their file."
+  followed by inline **Add a flag** and **Import** outline pills (add first), so the
+  first action never hides in a corner glyph.
 
 ### Named Rules
 **The No-Code-Voice Rule.** Nothing in the popup is set in a monospace face. A cookie
@@ -210,8 +216,11 @@ a transparent 1px border at rest so the outline never shifts layout.
 - **Structure:** a `channel-track` (#2c2e34) strip, 3px padding, 12px radius; one
   button per value plus Off, equal widths, `role="group"` with `aria-pressed`.
 - **Off selected:** muted Off Pill fill, white label — quiet interface state.
+- **Off placement:** Off is a narrow fixed-width segment (content-sized, 14px side
+  padding) separated from the values by a 1px Hairline divider — an exit beside the
+  choices, not a peer of them. Values share the remaining width equally.
 - **Value selected:** Switch Blue fill, white label; the page state itself shows as
-  the card's Live Green outline.
+  the card's Live Green outline and LED.
 - **Idle segments:** transparent with Soft White text; hover tints the segment with
   `rgba(255, 255, 255, 0.07)` and brightens the label to white.
 - **Selected hover:** `filter: brightness(1.08)` — still pressable, never inert.
@@ -229,6 +238,18 @@ a transparent 1px border at rest so the outline never shifts layout.
 ### Tabs (This site / All)
 - Outlined pills identical to outline buttons at rest; the active tab fills Switch
   Blue with a matching border. Selection is `aria-pressed`, not layout change.
+
+### Live Bar
+- A green-outlined pill-shaped strip between list and footer, present only when at
+  least one override is live on the site: "N live on this site" in Live Green at
+  12px/500, with an **All off** outline pill on the right (error-red text, two-step
+  confirm that fills error-red on "All off?"). Confirming removes every live override
+  cookie at once. Disarmed by click-away or Escape, like Remove.
+
+### LED (channel light)
+- A 6px Live Green dot before a live flag's name, `aria-hidden`, paired with a
+  visually hidden " live" suffix in the name for screen readers. The dot never
+  appears without a set cookie.
 
 ### Cards / Containers
 - **Corner Style:** 16px.
