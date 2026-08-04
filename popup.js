@@ -78,12 +78,6 @@ function bind() {
   el.importBtn.addEventListener("click", () => el.importFile.click());
   el.importFile.addEventListener("change", importFlags);
   el.allOff.addEventListener("click", async () => {
-    if (!el.allOff.classList.contains("confirm")) {
-      el.allOff.classList.add("confirm");
-      el.allOff.textContent = "All off?";
-      return;
-    }
-    resetAllOff();
     const liveFlags = [];
     for (const flag of state.flags.filter(matchesSite)) {
       if ((await readValue(flag)) !== null) liveFlags.push(flag);
@@ -96,24 +90,16 @@ function bind() {
     render();
   });
   document.addEventListener("click", (event) => {
-    if (!event.target.closest("#allOff")) resetAllOff();
     if (event.target.closest(".kebab, .actions")) return;
     closeMenus();
   });
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
     const open = el.list.querySelector(".actions:not([hidden])");
-    const armed = el.allOff.classList.contains("confirm");
-    if (!open && !armed) return;
+    if (!open) return;
     event.preventDefault();
     closeMenus();
-    resetAllOff();
   });
-}
-
-function resetAllOff() {
-  el.allOff.classList.remove("confirm");
-  el.allOff.textContent = "All off";
 }
 
 async function updateLivebar() {
@@ -123,7 +109,6 @@ async function updateLivebar() {
   }
   el.livebar.hidden = count === 0;
   if (count) el.liveCount.textContent = `${count} live on this site`;
-  resetAllOff();
 }
 
 function closeMenus() {

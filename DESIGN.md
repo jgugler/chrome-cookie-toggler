@@ -242,9 +242,9 @@ a transparent 1px border at rest so the outline never shifts layout.
 ### Live Bar
 - A green-outlined pill-shaped strip between list and footer, present only when at
   least one override is live on the site: "N live on this site" in Live Green at
-  12px/500, with an **All off** outline pill on the right (error-red text, two-step
-  confirm that fills error-red on "All off?"). Confirming removes every live override
-  cookie at once. Disarmed by click-away or Escape, like Remove.
+  12px/500, with an **All off** outline pill on the right (error-red text). One click
+  removes every live override cookie at once — no confirmation; unlike Remove, this
+  destroys no definitions, and re-applying an override costs one click.
 
 ### LED (channel light)
 - A 6px Live Green dot before a live flag's name, `aria-hidden`, paired with a

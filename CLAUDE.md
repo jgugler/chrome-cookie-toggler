@@ -72,9 +72,9 @@ path, existing installs already hold data.
   heading carries it. The choice is per popup open, it is not persisted.
 - Live flags carry a green LED dot beside the name (with a visually hidden "live" for
   screen readers) plus the green card outline. A live bar between list and footer
-  shows "N live on this site" with an All off button, two-step confirm like Remove,
-  that removes every live override cookie at once. It only renders when something is
-  live. Off is a narrow fixed-width segment separated from the values by a hairline
+  shows "N live on this site" with an All off button that removes every live override
+  cookie at once in a single click, no confirmation, overrides are cheap to re-apply.
+  It only renders when something is live. Off is a narrow fixed-width segment separated from the values by a hairline
   divider. The empty state offers Add a flag and Import pills inline.
 - The toolbar badge shows how many flag cookies are live for the site in the active
   tab. Only flags whose domain matches the tab's host (or a parent of it) count,
