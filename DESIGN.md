@@ -177,8 +177,10 @@ host (12px/500 Signal White, ellipsized with a title fallback), so the context i
 labeled, not implied. Cards span the popup minus a 12px gutter on each side and
 stack with a 10px gap; the flag list scrolls inside a 400px max height while header,
 tabs, and footer stay put. Cards show no domain line — This site implies it, the All
-tab's group headings carry it. Inside a card: 12px padding, a 10px gap between the
-name block and the control row. The kebab sits in the card head on the name's line;
+tab's group headings carry it, ordered by relevance: "Follows the current site"
+first, then site-matching domains, then foreign ones. Opening the add form resets the
+list's scroll so no card sits clipped beneath it. Inside a card: 12px padding, a 10px
+gap between the name block and the control row. The kebab sits in the card head on the name's line;
 the segmented control takes the full card width and its value segments share it
 equally
 and wrap long values (`overflow-wrap: anywhere`) rather than truncating. Base rhythm

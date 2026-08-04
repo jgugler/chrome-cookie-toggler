@@ -254,16 +254,16 @@ async function render() {
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(flag);
   }
-  const keys = [...groups.keys()].sort((a, b) => {
-    if (a === "") return -1;
-    if (b === "") return 1;
-    return a.localeCompare(b);
-  });
+  const rank = (key) => {
+    if (key === "") return 0;
+    return matchesSite({ domain: key }) ? 1 : 2;
+  };
+  const keys = [...groups.keys()].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
 
   for (const key of keys) {
     const heading = document.createElement("h2");
     heading.className = "group";
-    heading.textContent = key || tabUrl.host;
+    heading.textContent = key || "Follows the current site";
     el.list.append(heading);
     for (const flag of groups.get(key)) {
       const current = await readValue(flag);
@@ -410,7 +410,9 @@ function openForm(id) {
 
   el.fError.hidden = true;
   el.form.hidden = false;
-  document.body.classList.toggle("form-open", !el.list.contains(el.form));
+  const atTop = !el.list.contains(el.form);
+  document.body.classList.toggle("form-open", atTop);
+  if (atTop) el.list.scrollTop = 0;
   el.fName.focus();
 }
 
