@@ -58,6 +58,7 @@ async function init() {
   }
 
   el.host.textContent = tabUrl.host;
+  el.host.title = tabUrl.host;
   render();
 }
 
@@ -221,7 +222,7 @@ async function render() {
   if (!showAll) {
     for (const flag of visible) {
       const current = await readValue(flag);
-      el.list.append(flagRow(flag, current, true));
+      el.list.append(flagRow(flag, current));
     }
     restoreFocus(focusKey);
     updateLivebar();
@@ -247,7 +248,7 @@ async function render() {
     el.list.append(heading);
     for (const flag of groups.get(key)) {
       const current = await readValue(flag);
-      el.list.append(flagRow(flag, current, false));
+      el.list.append(flagRow(flag, current));
     }
   }
   restoreFocus(focusKey);
@@ -260,7 +261,7 @@ function restoreFocus(focusKey) {
   if (target) target.focus();
 }
 
-function flagRow(flag, current, showScope) {
+function flagRow(flag, current) {
   const wrap = document.createElement("section");
   wrap.className = "flag";
   wrap.dataset.id = flag.id;
@@ -286,13 +287,6 @@ function flagRow(flag, current, showScope) {
     name.append(srLive);
   }
   idWrap.append(name);
-
-  if (flag.domain && showScope) {
-    const scope = document.createElement("span");
-    scope.className = "flag-scope";
-    scope.textContent = flag.domain;
-    idWrap.append(scope);
-  }
 
   head.append(idWrap);
 

@@ -68,8 +68,9 @@ path, existing installs already hold data.
 - The list has two filter tabs. This site (default) shows flags with no domain plus
   flags whose domain matches the tab's host or a parent of it. All shows every flag,
   grouped by domain: the domain-less group is labeled with the current host and sorts
-  first, the rest alphabetically. Grouped cards skip their own domain line, the group
-  heading carries it. The choice is per popup open, it is not persisted.
+  first, the rest alphabetically. Cards never show their own domain line — in This
+  site it is implied by the header's "Current site", in All the group heading carries
+  it. The choice is per popup open, it is not persisted.
 - Live flags carry a green LED dot beside the name (with a visually hidden "live" for
   screen readers) plus the green card outline. A live bar between list and footer
   shows "N live on this site" with an All off button that removes every live override
