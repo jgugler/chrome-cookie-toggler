@@ -41,6 +41,7 @@
   --shadow: rgba(0, 0, 0, 0.5);
   --radius: 12px;
   --radius-segment: calc(var(--radius) - 3px);
+  --radius-menu-item: calc(var(--radius) - 6px);
   --radius-card: 16px;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
@@ -400,7 +401,7 @@ body {
 
 .settings-menu .ghost.text {
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-menu-item);
   text-align: left;
   padding: 6px 10px;
 }

@@ -208,9 +208,11 @@ shadow, the user's pointer is on it or they just opened it.
 ## Shapes
 
 Two radii and a circle. Containers — cards, the form, notices — use a soft 16px
-corner. Control internals — segmented tracks, inputs — use 12px, with segments on the
-9px `--radius-segment` token (derived as `calc(var(--radius) - 3px)`) so the inner
-pill nests the 3px track padding optically evenly.
+corner. Control internals — segmented tracks, inputs, the settings menu — use 12px.
+Nested shapes subtract their container's padding from its radius: segments sit on the
+9px `--radius-segment` token (`calc(var(--radius) - 3px)` inside the 3px track) and
+settings-menu items on the 6px `--radius-menu-item` token (`calc(var(--radius) - 6px)`
+inside the 6px-padded menu), so inner corners nest optically evenly.
 Everything action-shaped is a full pill (999px): buttons, tabs, the switch, the +
 circle. A live card's green outline is a 1px border on the 16px shape; cards reserve
 a transparent 1px border at rest so the outline never shifts layout.
