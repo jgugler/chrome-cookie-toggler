@@ -5,6 +5,8 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
+  <h1 class="sr-only">Flag Switch</h1>
+
   <header class="bar">
     <div class="host-wrap">
       <span class="host-label">Current site</span>
@@ -37,7 +39,7 @@
       <button class="primary" id="fSave" type="submit">Save flag</button>
       <button class="ghost text" id="fCancel" type="button">Cancel</button>
     </div>
-    <p class="error" id="fError" hidden></p>
+    <p class="error" id="fError" role="alert" hidden></p>
   </form>
 
   <main id="list" class="list"></main>

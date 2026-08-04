@@ -56,6 +56,12 @@ path, existing installs already hold data.
 - Lifetime is `COOKIE_DAYS` in `popup.js`, currently 90 days, so flags survive a restart.
 - `secure` is set when the page is https.
 - Off removes the cookie via `chrome.cookies.remove`, it does not write an empty value.
+- Every write is verified: `applyValue` reads the cookie back and, if it does not hold
+  the expected value, shows a notice and announces it. A write never fails silently.
+- Cookie names reject `[\s;=,]`, values reject `[\s;,"\\]`, on save and on import.
+  Import drops non-primitive and invalid values and reports "N imported, M skipped".
+- Saving is blocked when another flag would write the same cookie on the current site
+  (empty domain versus the tab's own host); parent-domain flags stay allowed.
 - Remove asks once (the button flips to a filled Remove?), and removing a flag whose
   cookie is live also removes the cookie, so no override outlives its flag.
 - On non-http pages the list and add form are unavailable, but the reload toggle and
@@ -106,6 +112,14 @@ hardcoded colors in rules (the badge colors in `background.js` mirror `--live`).
   popup stays quiet; green appears only when something is live.
 - Focus is always visible via `:focus-visible`, and it survives re-renders: per-flag
   controls carry a `data-focus-key` that `render()` restores after rebuilding the list.
+  When the focused control is gone (its flag was removed) focus falls back to the card
+  that took its place, never to `<body>`.
+- Each segmented control is a single tab stop: roving `tabindex` with Left/Right and
+  Home/End moving focus inside the group, so crossing the list does not cost a stop
+  per value.
+- Form errors are announced through `role="alert"` on `#fError`, and the offending
+  field gets `aria-invalid` plus `aria-describedby` and takes focus.
+- Escape closes, in order, an open kebab menu or the settings menu, then the form.
 - State changes are announced through the polite live region `#status` (value set,
   override removed, flag added/saved/removed, import count).
 - Segmented control uses `role="group"` with `aria-pressed` per button.

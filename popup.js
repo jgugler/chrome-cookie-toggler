@@ -1,5 +1,7 @@
 const STORE_KEY = "flagSwitch";
 const COOKIE_DAYS = 90;
+const NAME_INVALID = /[\s;=,]/;
+const VALUE_INVALID = /[\s;,"\\]/;
 
 const el = {
   host: document.getElementById("host"),
@@ -18,6 +20,7 @@ const el = {
   fValues: document.getElementById("fValues"),
   fDomain: document.getElementById("fDomain"),
   fCancel: document.getElementById("fCancel"),
+  fSave: document.getElementById("fSave"),
   fError: document.getElementById("fError"),
   autoReload: document.getElementById("autoReload"),
   exportBtn: document.getElementById("export"),
@@ -52,9 +55,9 @@ async function init() {
   if (!tabUrl || !/^https?:$/.test(tabUrl.protocol)) {
     tabUrl = null;
     el.host.textContent = "no site";
-    el.notice.textContent = "Open a http or https page to set cookies on it. Export and import still work here.";
-    el.notice.hidden = false;
+    showNotice("Open a http or https page to set cookies on it. Export and import still work here.");
     el.toggleAdd.disabled = true;
+    el.toggleAdd.title = "Open an http or https page to add flags";
     el.tabs.hidden = true;
     return;
   }
@@ -89,6 +92,7 @@ function bind() {
     el.importFile.click();
   });
   el.importFile.addEventListener("change", importFlags);
+  el.list.addEventListener("scroll", updateScrollHint);
   el.allOff.addEventListener("click", async () => {
     const liveFlags = [];
     for (const flag of state.flags.filter(matchesSite)) {
@@ -108,18 +112,36 @@ function bind() {
   });
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
-    const open = el.list.querySelector(".actions:not([hidden])");
+    const menuOpen = el.list.querySelector(".actions:not([hidden])");
     const settingsOpen = !el.settingsMenu.hidden;
-    if (!open && !settingsOpen) return;
+    const formOpen = !el.form.hidden;
+    if (!menuOpen && !settingsOpen && !formOpen) return;
     event.preventDefault();
     closeMenus();
     setSettingsOpen(false);
+    if (formOpen && !menuOpen && !settingsOpen) closeForm();
   });
 }
 
 function setSettingsOpen(open) {
   el.settingsMenu.hidden = !open;
   el.settingsBtn.setAttribute("aria-expanded", String(open));
+}
+
+function showNotice(message) {
+  el.notice.textContent = message;
+  el.notice.hidden = false;
+}
+
+function updateScrollHint() {
+  const up = el.list.scrollTop > 1;
+  const down = el.list.scrollTop + el.list.clientHeight < el.list.scrollHeight - 1;
+  el.list.dataset.scroll = up && down ? "both" : up ? "up" : down ? "down" : "none";
+}
+
+function afterRender() {
+  updateScrollHint();
+  updateLivebar();
 }
 
 async function updateLivebar() {
@@ -191,19 +213,32 @@ async function readValue(flag) {
 
 async function applyValue(flag, value) {
   const url = cookieUrl(flag);
-  if (value === null) {
-    await chrome.cookies.remove({ url, name: flag.name });
-  } else {
-    await chrome.cookies.set({
-      url,
-      name: flag.name,
-      value,
-      path: "/",
-      secure: tabUrl.protocol === "https:",
-      expirationDate: Math.floor(Date.now() / 1000) + COOKIE_DAYS * 86400,
-      ...(flag.domain ? { domain: flag.domain } : {})
-    });
+  try {
+    if (value === null) {
+      await chrome.cookies.remove({ url, name: flag.name });
+    } else {
+      await chrome.cookies.set({
+        url,
+        name: flag.name,
+        value,
+        path: "/",
+        secure: tabUrl.protocol === "https:",
+        expirationDate: Math.floor(Date.now() / 1000) + COOKIE_DAYS * 86400,
+        ...(flag.domain ? { domain: flag.domain } : {})
+      });
+    }
+    if ((await readValue(flag)) !== value) throw new Error("not applied");
+  } catch {
+    const trouble =
+      value === null
+        ? `Couldn't remove ${flag.name} on this site.`
+        : `Couldn't set ${flag.name} to ${value} on this site. Check the value and the domain.`;
+    showNotice(trouble);
+    announce(trouble);
+    render();
+    return;
   }
+  el.notice.hidden = true;
   if (state.autoReload) chrome.tabs.reload(tab.id);
   announce(value === null ? `${flag.name} override removed` : `${flag.name} set to ${value}`);
   render();
@@ -214,6 +249,8 @@ async function render() {
   if (el.list.contains(el.form)) closeForm();
   const active = document.activeElement;
   const focusKey = active && active.dataset ? active.dataset.focusKey : null;
+  const activeCard = active && active.closest ? active.closest(".flag") : null;
+  const cardIndex = activeCard ? [...el.list.querySelectorAll(".flag")].indexOf(activeCard) : -1;
   el.list.textContent = "";
 
   const visible = showAll ? state.flags : state.flags.filter(matchesSite);
@@ -234,7 +271,8 @@ async function render() {
       );
       el.list.append(starters);
     }
-    updateLivebar();
+    restoreFocus(focusKey, cardIndex);
+    afterRender();
     return;
   }
 
@@ -243,8 +281,8 @@ async function render() {
       const current = await readValue(flag);
       el.list.append(flagRow(flag, current));
     }
-    restoreFocus(focusKey);
-    updateLivebar();
+    restoreFocus(focusKey, cardIndex);
+    afterRender();
     return;
   }
 
@@ -270,14 +308,37 @@ async function render() {
       el.list.append(flagRow(flag, current));
     }
   }
-  restoreFocus(focusKey);
-  updateLivebar();
+  restoreFocus(focusKey, cardIndex);
+  afterRender();
 }
 
-function restoreFocus(focusKey) {
-  if (!focusKey) return;
-  const target = el.list.querySelector(`[data-focus-key="${CSS.escape(focusKey)}"]`);
-  if (target) target.focus();
+function restoreFocus(focusKey, cardIndex) {
+  if (focusKey) {
+    const target = el.list.querySelector(`[data-focus-key="${CSS.escape(focusKey)}"]`);
+    if (target) {
+      focusSegment(target);
+      return;
+    }
+  }
+  if (cardIndex < 0) return;
+  const cards = el.list.querySelectorAll(".flag");
+  if (cards.length) {
+    const card = cards[Math.min(cardIndex, cards.length - 1)];
+    const fallback = card.querySelector(".kebab");
+    if (fallback) fallback.focus();
+    return;
+  }
+  const starter = el.list.querySelector(".empty-actions button");
+  if (starter) starter.focus();
+}
+
+function focusSegment(target) {
+  const seg = target.closest(".seg");
+  if (seg) {
+    for (const button of seg.querySelectorAll("button")) button.tabIndex = -1;
+    target.tabIndex = 0;
+  }
+  target.focus();
 }
 
 function flagRow(flag, current) {
@@ -323,6 +384,14 @@ function flagRow(flag, current) {
     valueBtn.dataset.focusKey = `${flag.id}|v|${value}`;
     seg.append(valueBtn);
   }
+
+  const segButtons = [...seg.querySelectorAll("button")];
+  const pressed = segButtons.findIndex((b) => b.getAttribute("aria-pressed") === "true");
+  const roving = pressed === -1 ? 0 : pressed;
+  segButtons.forEach((button, index) => {
+    button.tabIndex = index === roving ? 0 : -1;
+  });
+  seg.addEventListener("keydown", onSegKeydown);
 
   const removeBtn = textButton("Remove", async () => {
     if (!removeBtn.classList.contains("confirm")) {
@@ -376,11 +445,27 @@ function segButton(label, active, live, onClick) {
   const button = document.createElement("button");
   button.type = "button";
   button.textContent = label;
-  button.title = label;
   button.setAttribute("aria-pressed", String(active));
   if (live) button.classList.add("live");
   button.addEventListener("click", onClick);
   return button;
+}
+
+function onSegKeydown(event) {
+  const moves = { ArrowLeft: -1, ArrowRight: 1, Home: "first", End: "last" };
+  if (!(event.key in moves)) return;
+  const buttons = [...event.currentTarget.querySelectorAll("button")];
+  const from = buttons.indexOf(document.activeElement);
+  if (from === -1) return;
+  event.preventDefault();
+  const move = moves[event.key];
+  let to;
+  if (move === "first") to = 0;
+  else if (move === "last") to = buttons.length - 1;
+  else to = (from + move + buttons.length) % buttons.length;
+  for (const button of buttons) button.tabIndex = -1;
+  buttons[to].tabIndex = 0;
+  buttons[to].focus();
 }
 
 function kebabIcon() {
@@ -411,11 +496,14 @@ function textButton(label, onClick) {
 
 function openForm(id) {
   closeForm();
+  closeMenus();
   editingId = id;
   const flag = state.flags.find((f) => f.id === id);
   el.fName.value = flag ? flag.name : "";
   el.fValues.value = flag ? flag.values.join(", ") : "";
   el.fDomain.value = flag ? flag.domain : "";
+  el.fSave.textContent = flag ? "Save changes" : "Add flag";
+  clearFieldErrors();
 
   if (flag) {
     const card = el.list.querySelector(`.flag[data-id="${flag.id}"]`);
@@ -430,6 +518,7 @@ function openForm(id) {
   const atTop = !el.list.contains(el.form);
   document.body.classList.toggle("form-open", atTop);
   if (atTop) el.list.scrollTop = 0;
+  updateScrollHint();
   el.fName.focus();
 }
 
@@ -437,10 +526,19 @@ function closeForm() {
   editingId = null;
   el.form.hidden = true;
   el.fError.hidden = true;
+  clearFieldErrors();
   document.body.classList.remove("form-open");
   const editing = el.list.querySelector(".flag.editing");
   if (editing) editing.classList.remove("editing");
   if (el.list.contains(el.form)) el.list.before(el.form);
+  updateScrollHint();
+}
+
+function clearFieldErrors() {
+  for (const field of [el.fName, el.fValues, el.fDomain]) {
+    field.removeAttribute("aria-invalid");
+    field.removeAttribute("aria-describedby");
+  }
 }
 
 async function saveFlag(event) {
@@ -453,11 +551,20 @@ async function saveFlag(event) {
     .filter(Boolean);
   const domain = normalizeDomain(el.fDomain.value);
 
-  if (!name) return fail("Add the cookie name.");
-  if (/[\s;=,]/.test(name)) return fail("A cookie name cannot contain spaces, semicolons, commas or equals signs.");
-  if (!values.length) return fail("Add at least one value, separated by commas.");
+  if (!name) return fail("Add the cookie name.", el.fName);
+  if (NAME_INVALID.test(name)) {
+    return fail("A cookie name cannot contain spaces, semicolons, commas or equals signs.", el.fName);
+  }
+  if (!values.length) return fail("Add at least one value, separated by commas.", el.fValues);
+  const badValue = values.find((v) => VALUE_INVALID.test(v));
+  if (badValue) {
+    return fail(`"${badValue}" cannot be a cookie value: no spaces, semicolons, quotes or backslashes.`, el.fValues);
+  }
   if (state.flags.some((f) => f.name === name && f.domain === domain && f.id !== editingId)) {
-    return fail("That cookie is already in the list.");
+    return fail("That cookie is already in the list.", el.fName);
+  }
+  if (state.flags.some((f) => f.name === name && f.id !== editingId && sameCookieTarget(f.domain, domain))) {
+    return fail(`Another flag already writes ${name} on this site. Edit that one instead.`, el.fDomain);
   }
 
   const wasEdit = Boolean(editingId);
@@ -473,9 +580,19 @@ async function saveFlag(event) {
   render();
 }
 
-function fail(message) {
+function sameCookieTarget(a, b) {
+  const host = (domain) => (domain ? domain.replace(/^\./, "") : tabUrl.host);
+  return host(a) === host(b);
+}
+
+function fail(message, field) {
+  clearFieldErrors();
   el.fError.textContent = message;
   el.fError.hidden = false;
+  if (!field) return;
+  field.setAttribute("aria-invalid", "true");
+  field.setAttribute("aria-describedby", "fError");
+  field.focus();
 }
 
 function exportFlags() {
@@ -498,19 +615,27 @@ async function importFlags(event) {
       .filter((f) => f && typeof f.name === "string" && Array.isArray(f.values))
       .map((f) => ({
         id: crypto.randomUUID(),
-        name: f.name,
-        values: f.values.map(String),
-        domain: typeof f.domain === "string" ? f.domain : ""
-      }));
+        name: f.name.trim(),
+        values: f.values
+          .filter((v) => typeof v === "string" || typeof v === "number")
+          .map((v) => String(v).trim())
+          .filter((v) => v && !VALUE_INVALID.test(v)),
+        domain: typeof f.domain === "string" ? normalizeDomain(f.domain) : ""
+      }))
+      .filter((f) => f.name && !NAME_INVALID.test(f.name) && f.values.length);
     const existing = new Set(state.flags.map((f) => `${f.name}|${f.domain}`));
     const fresh = clean.filter((f) => !existing.has(`${f.name}|${f.domain}`));
     state.flags.push(...fresh);
     await persist();
-    announce(`${fresh.length} ${fresh.length === 1 ? "flag" : "flags"} imported`);
+    const skipped = incoming.length - fresh.length;
+    announce(
+      skipped > 0
+        ? `${fresh.length} imported, ${skipped} skipped`
+        : `${fresh.length} ${fresh.length === 1 ? "flag" : "flags"} imported`
+    );
     render();
   } catch {
-    el.notice.textContent = "That file is not a Flag Switch export. Expected a JSON array of flags.";
-    el.notice.hidden = false;
+    showNotice("That file is not a Flag Switch export. Expected a JSON array of flags.");
   }
   event.target.value = "";
 }

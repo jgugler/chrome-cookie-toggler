@@ -12,7 +12,7 @@ colors:
   off-pill: "#4a4f5b"
   signal-white: "#ffffff"
   soft-white: "#e6e9ee"
-  error-red: "#f2555a"
+  error-red: "#ff6d72"
   focus-ring: "#7ab0ff"
 typography:
   title:
@@ -123,7 +123,8 @@ of it with strictly separated jobs.
   live flag's name, the outline around its card, the live bar's border and count, and
   the toolbar badge. **Deep Stage Green** (#0f1f14) remains its ink where green ever
   carries text on a green fill (the badge).
-- **Error Red** (#f2555a): form validation text only.
+- **Error Red** (#ff6d72): form validation text, the Remove and All off pills, and the
+  couldn't-write notice. Light enough for 5.6:1 on a card, 6.5:1 on the floor.
 
 ### Neutral
 - **Graphite Floor** (#17181d): the popup background.
@@ -186,8 +187,9 @@ labeled, not implied. Cards span the popup minus a 12px gutter on each side and
 stack with a 10px gap; the flag list scrolls inside a 400px max height while header,
 tabs, and footer stay put. Cards show no domain line — This site implies it, the All
 tab's group headings carry it, ordered by relevance: "Follows the current site"
-first, then site-matching domains, then foreign ones. Opening the add form resets the
-list's scroll so no card sits clipped beneath it. Inside a card: 12px padding, a 10px
+first, then site-matching domains, then foreign ones. The list signals cut-off content
+with an inset scroll shadow (see Elevation), and opening the add form resets its scroll
+so no card sits clipped beneath the form. Inside a card: 12px padding, a 10px
 gap between the name block and the control row. The kebab sits in the card head on the name's line;
 the segmented control takes the full card width and its value segments share it
 equally
@@ -208,6 +210,10 @@ needs an edge on the panel. Shadows exist only as a response to state.
   buttons while hovered.
 - **Menu float** (`box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5)`): under the open
   settings menu only.
+- **Scroll hint** (`box-shadow: inset 0 ±13px 10px -12px`): an inset band on the flag
+  list's own box, so it reads over opaque cards. Driven by `data-scroll` on the list
+  (`up`, `down`, `both`, `none`), meaning it appears only when content is actually
+  cut off in that direction.
 - **Knob shadow** (`box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5)`): seats the switch knob
   on its track.
 
@@ -231,7 +237,9 @@ a transparent 1px border at rest so the outline never shifts layout.
 
 ### Segmented Control (signature)
 - **Structure:** a `channel-track` (#2c2e34) strip, 3px padding, 12px radius; one
-  button per value plus Off, equal widths, `role="group"` with `aria-pressed`.
+  button per value plus Off, `role="group"` with `aria-pressed`.
+- **Keyboard:** the group is one tab stop — roving `tabindex` starts on the selected
+  segment, Left/Right and Home/End move focus within it without activating.
 - **Off selected:** muted Off Pill fill, white label — quiet interface state.
 - **Off placement:** Off is a narrow fixed-width segment (content-sized, 14px side
   padding) separated from the values by a 1px Hairline divider — an exit beside the
@@ -289,7 +297,9 @@ a transparent 1px border at rest so the outline never shifts layout.
 - **Style:** Channel Track fill, no visible border (1px transparent), 12px radius,
   8px 10px padding, white text at 13px.
 - **Focus:** the global 2px Focus Ring outline, offset 1px.
-- **Error:** message line below in Error Red at 12px; fields themselves stay calm.
+- **Error:** one message line in Error Red at 12px, carrying `role="alert"`; the field
+  at fault gets `aria-invalid`, is described by that message, and takes focus. Field
+  fills stay calm — the message and the focus ring do the pointing.
 
 ### Switch (Reload on change)
 - 34×20px pill track in Channel Track; 14px Signal White knob with the knob shadow.
