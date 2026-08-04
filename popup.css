@@ -362,31 +362,47 @@ body {
   color: var(--ink);
 }
 
-#toggleAdd {
-  width: 28px;
-  height: 28px;
-  padding: 0 0 2px;
-  display: grid;
-  place-items: center;
-  font-size: 16px;
-  line-height: 1;
-  flex: none;
-  background: var(--accent);
-  color: var(--accent-ink);
-  border-radius: 999px;
-}
-
-#toggleAdd:hover {
-  background: var(--accent);
-  color: var(--accent-ink);
-  filter: brightness(1.08);
-  box-shadow: 0 2px 6px var(--shadow);
-}
+#toggleAdd { flex: none; }
 
 #toggleAdd:disabled {
   filter: grayscale(1) brightness(0.8);
   cursor: default;
   box-shadow: none;
+}
+
+.settings { position: relative; }
+
+.settings-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.settings-btn[aria-expanded="true"] { color: var(--ink); }
+
+.settings-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 6px);
+  display: grid;
+  gap: 2px;
+  min-width: 120px;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--shadow);
+  z-index: 5;
+}
+
+.settings-menu .ghost.text {
+  border: 0;
+  border-radius: 8px;
+  text-align: left;
+  padding: 6px 10px;
 }
 
 .ghost.text {

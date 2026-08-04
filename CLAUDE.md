@@ -58,8 +58,10 @@ path, existing installs already hold data.
 - Off removes the cookie via `chrome.cookies.remove`, it does not write an empty value.
 - Remove asks once (the button flips to a filled Remove?), and removing a flag whose
   cookie is live also removes the cookie, so no override outlives its flag.
-- On non-http pages the list and add form are unavailable, but Export, Import and the
-  reload toggle stay functional.
+- On non-http pages the list and add form are unavailable, but the reload toggle and
+  Export/Import (behind the footer's settings gear) stay functional.
+- The extension icon is the toggle mark: graphite rounded square, gray track, green
+  knob mirroring `--live`. Icons are canvas-generated PNGs, no source file.
 - After any change the tab reloads if `autoReload` is on.
 - The Domain field normalizes pasted URLs via `normalizeDomain` in `popup.js`, on field
   change and again on save: it keeps the hostname, drops protocol, port, path, query and
@@ -93,8 +95,8 @@ hardcoded colors in rules (the badge colors in `background.js` mirror `--live`).
   no-network rule holds, with the system stack as fallback. There is no mono stack,
   identifiers read as regular text.
 - Two accent colors with distinct meanings. Blue (`--accent`, `#1d6ae8`) marks
-  selection and interface chrome: active filter tab, the + button, Save, the switch,
-  and the selected value pill in the segmented control. Green (`--live`, `#52d273`)
+  selection and interface chrome: active filter tab, the Add flag button, Save, the
+  switch, and the selected value pill in the segmented control. Green (`--live`, `#52d273`)
   means an override is live on the page in front of you, carried by the LED dot
   beside the flag name, the card outline, the live bar, and the toolbar badge. Do not
   mix the two meanings.

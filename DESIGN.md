@@ -194,14 +194,16 @@ three lightness steps of the same near-black — plus a hairline border where a 
 needs an edge on the panel. Shadows exist only as a response to state.
 
 ### Shadow Vocabulary
-- **Hover lift** (`box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5)`): appears on Save and
-  the + button while hovered.
+- **Hover lift** (`box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5)`): appears on primary
+  buttons while hovered.
+- **Menu float** (`box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5)`): under the open
+  settings menu only.
 - **Knob shadow** (`box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5)`): seats the switch knob
   on its track.
 
 ### Named Rules
 **The Flat-At-Rest Rule.** No surface carries a shadow at rest. If an element casts a
-shadow, the user's pointer is on it.
+shadow, the user's pointer is on it or they just opened it.
 
 ## Shapes
 
@@ -234,13 +236,22 @@ a transparent 1px border at rest so the outline never shifts layout.
   hover brightens (1.08) and lifts; active dims (0.95).
 - **Outline** (Edit, Remove, Export, Import, Cancel): transparent with a Hairline
   border and white label; hover tints the fill and sharpens the border to Soft White.
-- **Icon buttons:** the + is a 28px Switch Blue circle; the kebab (⋮) is a quiet
-  ghost that gains the hover tint. Every button compresses to `scale(0.97)` on press
-  with a 60ms return — the springy, tactile feel is part of the identity.
+- **Add flag:** the primary pill lives in the header — the one filled call to action
+  on a resting popup.
+- **Icon buttons:** the kebab (⋮ text glyph) and the footer's settings gear (authored
+  inline SVG, stroke `currentColor`) are quiet 28px ghosts that gain the hover tint.
+  Every button compresses to `scale(0.97)` on press with a 60ms return — the springy,
+  tactile feel is part of the identity.
 
 ### Tabs (This site / All)
 - Outlined pills identical to outline buttons at rest; the active tab fills Switch
   Blue with a matching border. Selection is `aria-pressed`, not layout change.
+
+### Settings Menu
+- The gear in the footer discloses a small floating menu (Console Panel fill,
+  Hairline border, 12px radius, `0 4px 12px` shadow) anchored above it, holding
+  Export and Import as quiet left-aligned items. Click-away and Escape close it;
+  state is carried by `aria-expanded`/`aria-controls`.
 
 ### Live Bar
 - A green-outlined pill-shaped strip between list and footer, present only when at

@@ -22,7 +22,9 @@ const el = {
   autoReload: document.getElementById("autoReload"),
   exportBtn: document.getElementById("export"),
   importBtn: document.getElementById("importBtn"),
-  importFile: document.getElementById("importFile")
+  importFile: document.getElementById("importFile"),
+  settingsBtn: document.getElementById("settingsBtn"),
+  settingsMenu: document.getElementById("settingsMenu")
 };
 
 let state = { flags: [], autoReload: true };
@@ -75,8 +77,17 @@ function bind() {
   el.fDomain.addEventListener("change", () => {
     el.fDomain.value = normalizeDomain(el.fDomain.value);
   });
-  el.exportBtn.addEventListener("click", exportFlags);
-  el.importBtn.addEventListener("click", () => el.importFile.click());
+  el.settingsBtn.addEventListener("click", () => {
+    setSettingsOpen(el.settingsMenu.hidden);
+  });
+  el.exportBtn.addEventListener("click", () => {
+    setSettingsOpen(false);
+    exportFlags();
+  });
+  el.importBtn.addEventListener("click", () => {
+    setSettingsOpen(false);
+    el.importFile.click();
+  });
   el.importFile.addEventListener("change", importFlags);
   el.allOff.addEventListener("click", async () => {
     const liveFlags = [];
@@ -91,16 +102,24 @@ function bind() {
     render();
   });
   document.addEventListener("click", (event) => {
+    if (!event.target.closest(".settings")) setSettingsOpen(false);
     if (event.target.closest(".kebab, .actions")) return;
     closeMenus();
   });
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
     const open = el.list.querySelector(".actions:not([hidden])");
-    if (!open) return;
+    const settingsOpen = !el.settingsMenu.hidden;
+    if (!open && !settingsOpen) return;
     event.preventDefault();
     closeMenus();
+    setSettingsOpen(false);
   });
+}
+
+function setSettingsOpen(open) {
+  el.settingsMenu.hidden = !open;
+  el.settingsBtn.setAttribute("aria-expanded", String(open));
 }
 
 async function updateLivebar() {

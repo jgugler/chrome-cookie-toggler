@@ -10,7 +10,7 @@
       <span class="host-label">Current site</span>
       <div class="host" id="host">loading</div>
     </div>
-    <button class="ghost" id="toggleAdd" title="Add a flag" aria-label="Add a flag">+</button>
+    <button class="primary" id="toggleAdd">Add flag</button>
   </header>
 
   <nav class="tabs" id="tabs">
@@ -54,10 +54,18 @@
       <input type="checkbox" id="autoReload">
       <span>Reload on change</span>
     </label>
-    <div class="row tight">
-      <button class="ghost text" id="export">Export</button>
-      <button class="ghost text" id="importBtn">Import</button>
-      <input type="file" id="importFile" accept="application/json" hidden>
+    <div class="settings">
+      <button class="ghost settings-btn" id="settingsBtn" title="Settings" aria-label="Settings" aria-expanded="false" aria-controls="settingsMenu">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="8" cy="8" r="2.2"/>
+          <path d="M13.3 10.1a1.2 1.2 0 0 0 .24 1.33l.04.04a1.45 1.45 0 1 1-2.05 2.05l-.04-.04a1.2 1.2 0 0 0-1.33-.24 1.2 1.2 0 0 0-.73 1.1v.13a1.45 1.45 0 1 1-2.9 0v-.07a1.2 1.2 0 0 0-.79-1.1 1.2 1.2 0 0 0-1.32.24l-.05.04a1.45 1.45 0 1 1-2.05-2.05l.04-.04a1.2 1.2 0 0 0 .24-1.32 1.2 1.2 0 0 0-1.1-.74h-.13a1.45 1.45 0 1 1 0-2.9h.07a1.2 1.2 0 0 0 1.1-.78 1.2 1.2 0 0 0-.24-1.33l-.04-.04a1.45 1.45 0 1 1 2.05-2.05l.04.04a1.2 1.2 0 0 0 1.33.24h.06a1.2 1.2 0 0 0 .73-1.1v-.13a1.45 1.45 0 1 1 2.9 0v.07a1.2 1.2 0 0 0 .73 1.1 1.2 1.2 0 0 0 1.33-.24l.04-.04a1.45 1.45 0 1 1 2.05 2.05l-.04.04a1.2 1.2 0 0 0-.24 1.33v.06a1.2 1.2 0 0 0 1.1.73h.13a1.45 1.45 0 1 1 0 2.9h-.07a1.2 1.2 0 0 0-1.1.73Z"/>
+        </svg>
+      </button>
+      <div class="settings-menu" id="settingsMenu" hidden>
+        <button class="ghost text" id="export">Export</button>
+        <button class="ghost text" id="importBtn">Import</button>
+        <input type="file" id="importFile" accept="application/json" hidden>
+      </div>
     </div>
   </footer>
 
