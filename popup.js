@@ -353,7 +353,7 @@ function flagRow(flag, current) {
   const menu = document.createElement("button");
   menu.type = "button";
   menu.className = "ghost kebab";
-  menu.textContent = "⋮";
+  menu.append(kebabIcon());
   menu.title = "More actions";
   menu.setAttribute("aria-label", `More actions for ${flag.name}`);
   menu.setAttribute("aria-expanded", "false");
@@ -381,6 +381,23 @@ function segButton(label, active, live, onClick) {
   if (live) button.classList.add("live");
   button.addEventListener("click", onClick);
   return button;
+}
+
+function kebabIcon() {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("width", "14");
+  svg.setAttribute("height", "14");
+  svg.setAttribute("viewBox", "0 0 14 14");
+  svg.setAttribute("fill", "currentColor");
+  svg.setAttribute("aria-hidden", "true");
+  for (const cy of [2.5, 7, 11.5]) {
+    const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    dot.setAttribute("cx", "7");
+    dot.setAttribute("cy", String(cy));
+    dot.setAttribute("r", "1.4");
+    svg.append(dot);
+  }
+  return svg;
 }
 
 function textButton(label, onClick) {

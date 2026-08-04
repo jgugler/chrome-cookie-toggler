@@ -226,9 +226,10 @@ body {
 
 .kebab {
   width: 28px;
+  padding: 0;
+  display: grid;
+  place-items: center;
   flex: none;
-  font-size: 14px;
-  line-height: 1;
 }
 
 .kebab:hover, .kebab[aria-expanded="true"] { color: var(--ink); }

@@ -250,8 +250,9 @@ a transparent 1px border at rest so the outline never shifts layout.
   border and white label; hover tints the fill and sharpens the border to Soft White.
 - **Add flag:** the primary pill lives in the header — the one filled call to action
   on a resting popup.
-- **Icon buttons:** the kebab (⋮ text glyph) and the footer's settings gear (authored
-  inline SVG, stroke `currentColor`) are quiet 28px ghosts that gain the hover tint.
+- **Icon buttons:** the kebab (three authored SVG dots, `currentColor` fill) and the
+  footer's settings gear (authored inline SVG, stroke `currentColor`) are quiet 28px
+  ghosts that gain the hover tint. No icon is drawn with a font character.
   Every button compresses to `scale(0.97)` on press with a 60ms return — the springy,
   tactile feel is part of the identity.
 
