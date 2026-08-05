@@ -7,15 +7,17 @@ environments. Devs hand over a cookie name and its accepted values, for example
 `checkout-ab` with `a` and `b`. The popup stores that flag and renders a segmented
 control so the value can be switched in one click.
 
-Built for shop teams testing feature variants on stage environments. Not published to
-the Chrome Web Store, distributed as an unpacked folder.
+Built for shop teams testing feature variants on stage environments. Distributed as
+an unpacked folder and packaged for the Chrome Web Store via the zip command in the
+README; `STORE.md` holds the listing and review answers.
 
 ## Constraints, do not break these
 
 - **No build step and no dependencies.** Plain HTML, CSS and JS, loaded directly by Chrome.
   Do not introduce npm, bundlers, TypeScript or frameworks unless explicitly asked.
-- **Manifest V3.** Permissions stay minimal: `cookies`, `storage`, `tabs` plus http and
-  https host permissions. Do not add permissions without asking.
+- **Manifest V3.** Permissions stay minimal: `cookies` and `storage` plus http and
+  https host permissions — deliberately no `tabs`, host permissions already expose
+  `tab.url` where it matters. Do not add permissions without asking.
 - **No network calls.** The extension talks to `chrome.cookies` and `chrome.storage` only.
   Nothing leaves the browser.
 - **No inline scripts or styles** in `popup.html`, MV3 CSP forbids them.

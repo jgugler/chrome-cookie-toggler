@@ -32,3 +32,17 @@ Off is neutral, an active variant is filled green and the card gets a green outl
 ## Sharing with the team
 
 Export writes a `flag-switch.json` with the flag list. Anyone with the extension can import it, duplicates by name and domain are skipped. Handy if the devs want to hand over a ready made set instead of a list in a chat message.
+
+## Publish
+
+The Chrome Web Store package is just the runtime files, none of the docs or dev tooling:
+
+```bash
+zip -r flag-switch-$(python3 -c "import json;print(json.load(open('manifest.json'))['version'])").zip manifest.json background.js popup.html popup.css popup.js icons fonts
+```
+
+Upload the zip in the [Developer Dashboard](https://chrome.google.com/webstore/devconsole). `STORE.md` carries the listing text, the single-purpose statement and the permission justifications ready to paste.
+
+## Privacy
+
+Flag Switch collects no data. It talks only to Chrome's cookie and storage APIs on your own machine: cookies are read and written by name, solely for the flags you registered, and your flag list lives in `chrome.storage.sync` under your own Chrome profile. There is no server, no analytics and no network request of any kind.

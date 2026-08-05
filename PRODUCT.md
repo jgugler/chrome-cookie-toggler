@@ -40,9 +40,9 @@ with no free-text cookie editing, no wrong values, and no hunting through cookie
 
 ## Capabilities and Constraints
 
-- Manifest V3. Permissions stay minimal: `cookies`, `storage`, `tabs` plus http/https
-  host permissions. Distribution today is an unpacked folder; a Chrome Web Store
-  listing is plausible later, so future work must keep permissions minimal and
+- Manifest V3. Permissions stay minimal: `cookies` and `storage` plus http/https
+  host permissions (no `tabs`). Distributed as an unpacked folder and packaged for
+  the Chrome Web Store; future work must keep permissions minimal and
   store-review-friendly.
 - No build step, no dependencies, no frameworks: plain HTML, CSS and JS loaded
   directly by Chrome.
